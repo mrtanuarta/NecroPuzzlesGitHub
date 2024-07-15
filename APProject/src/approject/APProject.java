@@ -12,7 +12,7 @@ public class APProject {
         
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("NecroPuzzlesNewy5");
+        window.setTitle("NecroPuzzles");
         window.add(gamePanel);
         window.pack();
         window.setLocationRelativeTo(null);
