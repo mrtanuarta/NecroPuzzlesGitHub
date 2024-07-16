@@ -28,7 +28,7 @@ public final class zombie extends entity {
 
     // This is the default values where the zombie will spawn, DONT TOUCH THE SPEED
     public void setDefaultValues() {
-        x = 0;
+        x = 512;
         y = 256;
         speed = 64;
     }

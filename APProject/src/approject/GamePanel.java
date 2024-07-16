@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import entity.player;
+import entity.zombie;
 import tileCode.tileManager;
 /**
  *
@@ -24,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     keyHandler keyH = new keyHandler();
     Thread gameThread;
     player Player = new player(this , keyH);
+    zombie Zombie = new zombie(this, keyH);
     private final int FPS = 60;
     //Sets up screen
     public GamePanel() {
@@ -76,6 +78,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         //update the player
         Player.update();
+        Zombie.update();
     }
     //render it
     @Override
@@ -84,7 +87,8 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         tileM.draw(g2);
         Player.draw(g2);
-        
+        Zombie.draw(g2);
+
         g2.dispose();
     }
 }
