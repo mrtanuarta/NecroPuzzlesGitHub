@@ -13,10 +13,12 @@ public final class zombie extends entity {
     int x, y, speed;
     int spriteCounter = 0;
     int spriteNum = 1;
+    private player Player;
 
     // Just a constructor to connect the main game panel
-    public zombie(GamePanel gp) {
+    public zombie(GamePanel gp, player Player) {
         this.gp = gp;
+        this.Player = Player;
         getZombieImage();
         setDefaultValues();
     }
@@ -50,25 +52,26 @@ public final class zombie extends entity {
 
         // This is for the zombie movement
         // left movement
-        if (checkLeft(x, y)){ // if left tile is a path tile
-            newX -= speed;
-            //update death tile
-        } else {
-            //lookRight();
-            //update death tile
-        }
-        // right movement
-        if (checkRight(x, y)){ // if right tile is a path tile
-            //move right
-            //update death tile
-        } else {
-            //lookLeft();
-            //update death tile
-        }
+        if (Player.moved) {
+            if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
+                newX -= speed;
+                //update death tile
+            } else {
+                //lookRight();
+                //update death tile
+            }
+            // right movement
+            if (checkRight(x, y)) { // if right tile is a path tile
+                //move right
+                //update death tile
+            } else {
+                //lookLeft();
+                //update death tile
+            }
 
-        x = newX;
-        y = newY;
-
+            x = newX;
+            y = newY;
+        }
     }
 
     public boolean checkLeft(int newX, int newY) {
@@ -81,7 +84,7 @@ public final class zombie extends entity {
         }
 
         // Check for zombie path at the new position
-        return !gp.tileM.isZombiePath(col, row);
+        return gp.tileM.isZombiePath(col, row);
     }
 
     public boolean checkRight(int newX, int newY) {

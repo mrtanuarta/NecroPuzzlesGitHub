@@ -14,6 +14,7 @@ public final class player extends entity {
     private int Moves = 0;
     private long lastMoveTime = 0;
     private final int cooldown = 500;
+    protected boolean moved = false;
     GamePanel gp;
     keyHandler keyH;
 
@@ -61,7 +62,7 @@ public final class player extends entity {
         //This is for the player movement
         if (currentTime - lastMoveTime >= cooldown) {
             int newX = x, newY = y;
-            boolean moved = false;
+            moved = false;
 
             if (keyH.upPressed) {
                 newY -= speed;
