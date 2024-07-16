@@ -32,6 +32,7 @@ public final class tileManager{
         setCollisionForTiles(new int[]{1,2,3,4,5,6,7,8,9,10,13,16,17,18,19,20,26,27,28,29,36,37,39,40,46,50,53,54,56,57,59,60,63,64,66,70,74,76,77,79,80,82,83,86,87,88,89,90,92,93,97,98,99});
         setDeathForTiles(new int[]{25,35,55,65});
         setVictoryForTiles(new int []{33,42});
+        setZombiePathTiles(new int []{24,25});
     }
     
     public void getTileImage(){
@@ -104,6 +105,15 @@ public final class tileManager{
         }
     }
 
+    public void setZombiePathTiles(int[] indices){
+        for (int i : indices) {
+            if (i >= 0 && i < tile.length) {
+                tile[i].zombiePath = true;
+                System.out.println("Tiles zombie path activated : "+i);
+            }
+        }
+    }
+
     public void draw(Graphics2D g2){
         int col = 0;
         int row = 0;
@@ -138,5 +148,10 @@ public final class tileManager{
     public boolean isTileVictory(int col, int row) {
         int tileNum = mapTileNum[col][row];
         return tile[tileNum].victory;
+    }
+
+    public boolean isTileZombiePath(int col, int row) {
+        int tileNum = mapTileNum[col][row];
+        return tile[tileNum].zombiePath;
     }
 }
