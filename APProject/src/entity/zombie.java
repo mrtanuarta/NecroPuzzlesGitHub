@@ -13,6 +13,8 @@ public final class zombie extends entity {
     int x, y, speed;
     int spriteCounter = 0;
     int spriteNum = 1;
+    private long lastMoveTime = 0;
+    private final int cooldown = 500;
     private player Player;
 
     // Just a constructor to connect the main game panel
@@ -49,10 +51,10 @@ public final class zombie extends entity {
         spriteAnim();
 
         int newX = x, newY = y;
-
+        long currentTime = System.currentTimeMillis();
         // This is for the zombie movement
         // left movement
-        if (Player.moved) {
+        if (Player.moved && currentTime - lastMoveTime >= cooldown) {
             if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
                 newX -= speed;
                 //update death tile
@@ -71,6 +73,7 @@ public final class zombie extends entity {
 
             x = newX;
             y = newY;
+            lastMoveTime = currentTime;
         }
     }
 
