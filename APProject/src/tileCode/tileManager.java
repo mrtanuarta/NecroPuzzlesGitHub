@@ -35,7 +35,11 @@ public final class tileManager{
         setZombiePathTiles(new int []{24,25});
         setPlayerPathTiles(new int[]{34});
     }
-    
+
+    public void updateTile(int col, int row, int newValue) {
+        mapTileNum[col][row] = newValue;
+    }
+
     public void getTileImage(){
         try {
             tile[0] = new tile();

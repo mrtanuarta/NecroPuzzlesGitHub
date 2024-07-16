@@ -1,4 +1,5 @@
 package entity;
+import tileCode.tileManager;
 import approject.GamePanel;
 import approject.keyHandler;
 import java.awt.Graphics2D;
@@ -16,11 +17,13 @@ public final class zombie extends entity {
     private long lastMoveTime = 0;
     private final int cooldown = 500;
     private player Player;
+    private tileManager tileM;
 
     // Just a constructor to connect the main game panel
-    public zombie(GamePanel gp, player Player) {
+    public zombie(GamePanel gp, player Player, tileManager tileM) {
         this.gp = gp;
         this.Player = Player;
+        this.tileM = tileM;
         getZombieImage();
         setDefaultValues();
     }
@@ -107,11 +110,22 @@ public final class zombie extends entity {
         int col = (x - speed) / gp.tileSize;
         int row = y / gp.tileSize;
 
-        if (gp.tileM.isPlayerPath(col-1, row)){
+        if (gp.tileM.isZombiePath(col-1, row)){
+            tileM.updateTile(col-1, row, 25);
+            System.out.println("update path left to death path");
+        }
+        else if (gp.tileM.isPlayerPath(col-1, row)){
+            tileM.updateTile(col-1, row, 35);
             System.out.println("update left to normal death");
         }
-        if (gp.tileM.isZombiePath(col-1, row)){
-            System.out.println("update path left to death path");
+
+        if (gp.tileM.isZombiePath(col+1, row)){
+            tileM.updateTile(col+1, row, 24);
+            System.out.println("update prev path to normal path");
+        }
+        else if (gp.tileM.isTileDeath(col+1, row)){
+            tileM.updateTile(col+1, row, 34);
+            System.out.println("update prev tile to normal tile");
         }
     }
 
