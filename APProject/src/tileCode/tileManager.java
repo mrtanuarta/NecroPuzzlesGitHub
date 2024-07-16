@@ -150,7 +150,7 @@ public final class tileManager{
         return tile[tileNum].victory;
     }
 
-    public boolean isTileZombiePath(int col, int row) {
+    public boolean isZombiePath(int col, int row) {
         int tileNum = mapTileNum[col][row];
         return tile[tileNum].zombiePath;
     }
