@@ -57,7 +57,7 @@ public final class zombie extends entity {
         if (Player.moved && currentTime - lastMoveTime >= cooldown) {
             if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
                 newX -= speed;
-                //update death tile
+                updateLeftDeathTile(x, y);
             } else {
                 //lookRight();
                 //update death tile
@@ -90,9 +90,9 @@ public final class zombie extends entity {
         return gp.tileM.isZombiePath(col, row);
     }
 
-    public boolean checkRight(int newX, int newY) {
-        int col = (newX + speed) / gp.tileSize;
-        int row = newY / gp.tileSize;
+    public boolean checkRight(int x, int y) {
+        int col = (x + speed) / gp.tileSize;
+        int row = y / gp.tileSize;
 
         // Check if the new position is within the bounds of the map
         if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
@@ -101,6 +101,18 @@ public final class zombie extends entity {
 
         // Check for zombie path at the new position
         return !gp.tileM.isZombiePath(col, row);
+    }
+
+    public void updateLeftDeathTile(int x, int y) {
+        int col = (x - speed) / gp.tileSize;
+        int row = y / gp.tileSize;
+
+        if (gp.tileM.isPlayerPath(col-1, row)){
+            System.out.println("update left to normal death");
+        }
+        if (gp.tileM.isZombiePath(col-1, row)){
+            System.out.println("update path left to death path");
+        }
     }
 
     // Draw the sprite

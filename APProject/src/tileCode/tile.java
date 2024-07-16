@@ -21,4 +21,5 @@ public class tile {
     //if the player stands here they win
     public boolean victory = false;
     public boolean zombiePath = false;
+    public boolean playerPath = false;
 }
