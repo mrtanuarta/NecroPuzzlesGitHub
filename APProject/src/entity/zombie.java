@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 
 public final class zombie extends entity {
     GamePanel gp;
-    BufferedImage left, right;
     String direction = "left"; // Default direction set to "left"
     private final player Player;
     private final tileManager tileM;
@@ -32,10 +31,14 @@ public final class zombie extends entity {
     // To get the zombie image & animation
     public void getZombieImage() {
         try {
-            left = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite1.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite1.png"));
             left2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie11.png"));
-            right = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite3.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite3.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie31.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite4.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie41.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite2.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie21.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -60,14 +63,30 @@ public final class zombie extends entity {
                 newX += speed;
                 updateRightDeathTile(x, y);
             }
+            else if (direction.equals("up") && checkUp(x, y)) { // if right tile is a path tile
+                newY -= speed;
+                updateUpDeathTile(x, y);
+            }
+            else if (direction.equals("down") && checkDown(x, y)) { // if right tile is a path tile
+                newY += speed;
+                updateDownDeathTile(x, y);
+            }
 
-            else if (!checkLeft(newX, newY)){
+            else if (direction.equals("left") && !checkLeft(newX, newY)){
                 direction = "right";
                 updateRightDeathTile(x-64, y);
             }
-            else if (!checkRight(newX, newY)){
+            else if (direction.equals("right") && !checkRight(newX, newY)){
                 direction = "left";
                 updateLeftDeathTile(x+64, y);
+            }
+            else if (direction.equals("up") && !checkUp(newX, newY)){
+                direction = "down";
+                updateDownDeathTile(x, y-64);
+            }
+            else if (direction.equals("down") && !checkDown(newX, newY)){
+                direction = "up";
+                updateUpDeathTile(x, y+64);
             }
 
             x = newX;
@@ -93,6 +112,32 @@ public final class zombie extends entity {
     public boolean checkRight(int x, int y) {
         int col = (x + speed) / gp.tileSize;
         int row = y / gp.tileSize;
+
+        // Check if the new position is within the bounds of the map
+        if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
+            return false;
+        }
+
+        // Check for zombie path at the new position
+        return gp.tileM.isZombiePath(col, row);
+    }
+
+    public boolean checkUp(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y - speed) / gp.tileSize;
+
+        // Check if the new position is within the bounds of the map
+        if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
+            return false;
+        }
+
+        // Check for zombie path at the new position
+        return gp.tileM.isZombiePath(col, row);
+    }
+
+    public boolean checkDown(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y + speed) / gp.tileSize;
 
         // Check if the new position is within the bounds of the map
         if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
@@ -155,12 +200,67 @@ public final class zombie extends entity {
         }
     }
 
+    public void updateUpDeathTile(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y - speed) / gp.tileSize;
+
+        if (gp.tileM.isZombiePath(col, row)){
+            tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            tileM.updateTile(col, row, 35);
+        }
+
+        if (gp.tileM.isZombiePath(col, row-1)){
+            tileM.updateTile(col, row-1, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row-1)){
+            tileM.updateTile(col, row-1, 35);
+        }
+
+        if (gp.tileM.isZombiePath(col, row+1)){
+            tileM.updateTile(col, row+1, 24);
+        }
+        else if (gp.tileM.isTileDeath(col, row+1)){
+            tileM.updateTile(col, row+1, 34);
+        }
+    }
+
+    public void updateDownDeathTile(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y + speed) / gp.tileSize;
+
+        if (gp.tileM.isZombiePath(col, row)){
+            tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            tileM.updateTile(col, row, 35);
+        }
+
+        if (gp.tileM.isZombiePath(col, row+1)){
+            tileM.updateTile(col, row+1, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row+1)){
+            tileM.updateTile(col, row+1, 35);
+        }
+
+        if (gp.tileM.isZombiePath(col, row-1)){
+            tileM.updateTile(col, row-1, 24);
+        }
+        else if (gp.tileM.isTileDeath(col, row-1)){
+            tileM.updateTile(col, row-1, 34);
+        }
+    }
+
+
     // Draw the sprite
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "left" -> image = (spriteNum == 1) ? left : left2;
-            case "right" -> image = (spriteNum == 1) ? right : right2;
+            case "left" -> image = (spriteNum == 1) ? left1 : left2;
+            case "right" -> image = (spriteNum == 1) ? right1 : right2;
+            case "up" -> image = (spriteNum == 1) ? up1 : up2;
+            case "down" -> image = (spriteNum == 1) ? down1 : down2;
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
