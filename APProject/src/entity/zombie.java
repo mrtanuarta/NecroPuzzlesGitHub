@@ -58,16 +58,18 @@ public final class zombie extends entity {
                 newX -= speed;
                 updateLeftDeathTile(x, y);
             }
-            if (direction.equals("right") && checkRight(x, y)) { // if right tile is a path tile
+            else if (direction.equals("right") && checkRight(x, y)) { // if right tile is a path tile
                 newX += speed;
                 updateRightDeathTile(x, y);
             }
 
-            if (!checkLeft(newX, newY)){
+            else if (!checkLeft(newX, newY)){
                 direction = "right";
+                updateRightDeathTile(x-64, y);
             }
-            if (!checkRight(newX, newY)){
+            else if (!checkRight(newX, newY)){
                 direction = "left";
+                updateLeftDeathTile(x+64, y);
             }
 
             x = newX;
