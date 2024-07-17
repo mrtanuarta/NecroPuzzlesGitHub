@@ -93,14 +93,6 @@ public final class player extends entity {
                 lastMoveTime = currentTime; // Update last move time
                 moveUpdate();
             }
-            //check for death
-            if (moved && isDead(newX, newY)) {
-                System.out.println("bozo ded");
-            }
-            //check for victory
-            if (moved && isVictory(newX, newY)) {
-                System.out.println("yay W");
-            }
             //just reseting the pressed
             keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
         }
@@ -117,6 +109,15 @@ public final class player extends entity {
 
         // Check for collision at the new position
         return !gp.tileM.isTileCollision(col, row);
+    }
+
+    public void checkTileUpdates(int x, int y) {
+        if (isDead(x, y)) {
+            System.out.println("bozo ded");
+        }
+        if (isVictory(x, y)) {
+            System.out.println("yay W");
+        }
     }
 
     private boolean isDead(int newX, int newY) {
