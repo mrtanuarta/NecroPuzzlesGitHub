@@ -1,7 +1,6 @@
 package entity;
 import tileCode.tileManager;
 import approject.GamePanel;
-import approject.keyHandler;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,11 +10,8 @@ public final class zombie extends entity {
     GamePanel gp;
     BufferedImage left, right;
     String direction = "left"; // Default direction set to "left"
-    int x, y, speed;
-    int spriteCounter = 0;
-    int spriteNum = 1;
-    private player Player;
-    private tileManager tileM;
+    private final player Player;
+    private final tileManager tileM;
 
     // Just a constructor to connect the main game panel
     public zombie(GamePanel gp, player Player, tileManager tileM) {
@@ -161,12 +157,8 @@ public final class zombie extends entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "left":
-                image = (spriteNum == 1) ? left : right;
-                break;
-            case "right":
-                image = (spriteNum == 1) ? right : left;
-                break;
+            case "left" -> image = (spriteNum == 1) ? left : right;
+            case "right" -> image = (spriteNum == 1) ? right : left;
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }

@@ -1,11 +1,11 @@
 package approject;
 
+import entity.player;
+import entity.zombie;
 import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
-import entity.player;
-import entity.zombie;
 import tileCode.tileManager;
 /**
  *
