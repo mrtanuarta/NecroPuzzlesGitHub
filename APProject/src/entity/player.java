@@ -70,17 +70,17 @@ public final class player extends entity {
                 direction = "up";
                 moved = true;
             }
-            if (keyH.downPressed) {
+            else if (keyH.downPressed) {
                 newY += speed;
                 direction = "down";
                 moved = true;
             }
-            if (keyH.leftPressed) {
+            else if (keyH.leftPressed) {
                 newX -= speed;
                 direction = "left";
                 moved = true;
             }
-            if (keyH.rightPressed) {
+            else if (keyH.rightPressed) {
                 newX += speed;
                 direction = "right";
                 moved = true;
