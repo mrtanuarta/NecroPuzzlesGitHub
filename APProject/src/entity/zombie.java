@@ -55,34 +55,34 @@ public final class zombie extends entity {
 
         int newX = x, newY = y;
         long currentTime = System.currentTimeMillis();
-        // This is for the zombie movement
-        // left movement
-        if (Player.moved && currentTime - lastMoveTime >= cooldown) {
+
+        if (Player.zombieCanMove && currentTime - lastMoveTime >= cooldown) {
             if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
                 newX -= speed;
                 updateLeftDeathTile(x, y);
-            } else {
-                //lookRight();
-                //update death tile
             }
-            // right movement
-            if (checkRight(x, y)) { // if right tile is a path tile
-                //move right
-                //update death tile
-            } else {
-                //lookLeft();
-                //update death tile
+            if (direction.equals("right") && checkRight(x, y)) { // if right tile is a path tile
+                newX += speed;
+                updateRightDeathTile(x, y);
+            }
+
+            if (!checkLeft(newX, newY)){
+                direction = "right";
+            }
+            if (!checkRight(newX, newY)){
+                direction = "left";
             }
 
             x = newX;
             y = newY;
             lastMoveTime = currentTime;
+            Player.zombieCanMove = false;
         }
     }
 
-    public boolean checkLeft(int newX, int newY) {
-        int col = (newX - speed) / gp.tileSize;
-        int row = newY / gp.tileSize;
+    public boolean checkLeft(int x, int y) {
+        int col = (x - speed) / gp.tileSize;
+        int row = y / gp.tileSize;
 
         // Check if the new position is within the bounds of the map
         if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
@@ -103,29 +103,58 @@ public final class zombie extends entity {
         }
 
         // Check for zombie path at the new position
-        return !gp.tileM.isZombiePath(col, row);
+        return gp.tileM.isZombiePath(col, row);
     }
 
     public void updateLeftDeathTile(int x, int y) {
         int col = (x - speed) / gp.tileSize;
         int row = y / gp.tileSize;
 
+        if (gp.tileM.isZombiePath(col, row)){
+            tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            tileM.updateTile(col, row, 35);
+        }
+
         if (gp.tileM.isZombiePath(col-1, row)){
             tileM.updateTile(col-1, row, 25);
-            System.out.println("update path left to death path");
         }
         else if (gp.tileM.isPlayerPath(col-1, row)){
             tileM.updateTile(col-1, row, 35);
-            System.out.println("update left to normal death");
         }
 
         if (gp.tileM.isZombiePath(col+1, row)){
             tileM.updateTile(col+1, row, 24);
-            System.out.println("update prev path to normal path");
         }
         else if (gp.tileM.isTileDeath(col+1, row)){
             tileM.updateTile(col+1, row, 34);
-            System.out.println("update prev tile to normal tile");
+        }
+    }
+
+    public void updateRightDeathTile(int x, int y) {
+        int col = (x + speed) / gp.tileSize;
+        int row = y / gp.tileSize;
+
+        if (gp.tileM.isZombiePath(col, row)){
+            tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            tileM.updateTile(col, row, 35);
+        }
+
+        if (gp.tileM.isZombiePath(col+1, row)){
+            tileM.updateTile(col+1, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col+1, row)){
+            tileM.updateTile(col+1, row, 35);
+        }
+
+        if (gp.tileM.isZombiePath(col-1, row)){
+            tileM.updateTile(col-1, row, 24);
+        }
+        else if (gp.tileM.isTileDeath(col-1, row)){
+            tileM.updateTile(col-1, row, 34);
         }
     }
 

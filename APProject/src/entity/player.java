@@ -15,6 +15,7 @@ public final class player extends entity {
     private long lastMoveTime = 0;
     private final int cooldown = 500;
     protected boolean moved = false;
+    protected boolean zombieCanMove = false;
     GamePanel gp;
     keyHandler keyH;
 
@@ -86,6 +87,7 @@ public final class player extends entity {
             }
             //To check if it is able to move, if it hits a hitbox then this wont be updated
             if (moved && canMove(newX, newY)) {
+                zombieCanMove = true;
                 x = newX;
                 y = newY;
                 lastMoveTime = currentTime; // Update last move time
