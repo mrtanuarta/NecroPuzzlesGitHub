@@ -33,7 +33,9 @@ public final class zombie extends entity {
     public void getZombieImage() {
         try {
             left = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie11.png"));
             right = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite3.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie31.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -157,8 +159,8 @@ public final class zombie extends entity {
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "left" -> image = (spriteNum == 1) ? left : right;
-            case "right" -> image = (spriteNum == 1) ? right : left;
+            case "left" -> image = (spriteNum == 1) ? left : left2;
+            case "right" -> image = (spriteNum == 1) ? right : right2;
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
@@ -166,7 +168,7 @@ public final class zombie extends entity {
     // Sprite animation
     public void spriteAnim() {
         spriteCounter++;
-        if (spriteCounter > 20) {
+        if (spriteCounter > 40) {
             spriteNum = (spriteNum == 1) ? 2 : 1;
             spriteCounter = 0;
         }
