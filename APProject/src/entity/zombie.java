@@ -8,17 +8,26 @@ import javax.imageio.ImageIO;
 
 public final class zombie extends entity {
     GamePanel gp;
-    String direction = "left"; // Default direction set to "left"
+    String direction, type, rotation;
     private final player Player;
     private final tileManager tileM;
 
     // Just a constructor to connect the main game panel
-    public zombie(GamePanel gp, player Player, tileManager tileM) {
+    public zombie(GamePanel gp, player Player, tileManager tileM, String type, int x, int y, String direction) {
+        this(gp, Player, tileM, type, x, y, direction, null);
+    }
+
+    public zombie(GamePanel gp, player Player, tileManager tileM, String type, int x, int y, String direction, String rotation) {
         this.gp = gp;
         this.Player = Player;
         this.tileM = tileM;
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        speed = 64;
+        this.direction = direction;
+        this.rotation = rotation;
         getZombieImage();
-        setDefaultValues();
     }
 
     // This is the default values where the zombie will spawn, DONT TOUCH THE SPEED
@@ -55,44 +64,58 @@ public final class zombie extends entity {
         int newX = x, newY = y;
 
         if (Player.zombieCanMove) {
-            if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
-                newX -= speed;
-                updateLeftDeathTile(x, y);
+            if (type.equals("moving")) {
+                if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
+                    newX -= speed;
+                    updateLeftDeathTile(x, y);
+                } else if (direction.equals("right") && checkRight(x, y)) { // if right tile is a path tile
+                    newX += speed;
+                    updateRightDeathTile(x, y);
+                } else if (direction.equals("up") && checkUp(x, y)) { // if right tile is a path tile
+                    newY -= speed;
+                    updateUpDeathTile(x, y);
+                } else if (direction.equals("down") && checkDown(x, y)) { // if right tile is a path tile
+                    newY += speed;
+                    updateDownDeathTile(x, y);
+                }
+                //check if the zombie has reached the end of the path
+                else if (direction.equals("left") && !checkLeft(newX, newY)) {
+                    direction = "right";
+                    updateRightDeathTile(x - speed, y);
+                } else if (direction.equals("right") && !checkRight(newX, newY)) {
+                    direction = "left";
+                    updateLeftDeathTile(x + speed, y);
+                } else if (direction.equals("up") && !checkUp(newX, newY)) {
+                    direction = "down";
+                    updateDownDeathTile(x, y - speed);
+                } else if (direction.equals("down") && !checkDown(newX, newY)) {
+                    direction = "up";
+                    updateUpDeathTile(x, y + speed);
+                }
             }
-            else if (direction.equals("right") && checkRight(x, y)) { // if right tile is a path tile
-                newX += speed;
-                updateRightDeathTile(x, y);
-            }
-            else if (direction.equals("up") && checkUp(x, y)) { // if right tile is a path tile
-                newY -= speed;
-                updateUpDeathTile(x, y);
-            }
-            else if (direction.equals("down") && checkDown(x, y)) { // if right tile is a path tile
-                newY += speed;
-                updateDownDeathTile(x, y);
-            }
+            else if (type.equals("rotate")){
+                if (rotation.equals("right")){
+                    if (direction.equals("left")) {
+                        direction = "up";
+                        updateUpDeathTile(x, y + speed);
+                    } else if (direction.equals("up")) {
+                        direction = "right";
+                        updateRightDeathTile(x - speed, y);
+                    } else if (direction.equals("right")) {
+                        direction = "down";
+                        updateDownDeathTile(x, y - speed);
+                    } else if (direction.equals("down")) {
+                        direction = "left";
+                        updateLeftDeathTile(x + speed, y);
+                    }
+                }
+                if (rotation.equals("left")){
 
-            else if (direction.equals("left") && !checkLeft(newX, newY)){
-                direction = "right";
-                updateRightDeathTile(x-64, y);
-            }
-            else if (direction.equals("right") && !checkRight(newX, newY)){
-                direction = "left";
-                updateLeftDeathTile(x+64, y);
-            }
-            else if (direction.equals("up") && !checkUp(newX, newY)){
-                direction = "down";
-                updateDownDeathTile(x, y-64);
-            }
-            else if (direction.equals("down") && !checkDown(newX, newY)){
-                direction = "up";
-                updateUpDeathTile(x, y+64);
+                }
             }
 
             x = newX;
             y = newY;
-            Player.zombieCanMove = false;
-            Player.checkTileUpdates(Player.x, Player.y);
         }
     }
 
@@ -152,6 +175,7 @@ public final class zombie extends entity {
         int col = (x - speed) / gp.tileSize;
         int row = y / gp.tileSize;
 
+        //set tile beneath zombie to death tile
         if (gp.tileM.isZombiePath(col, row)){
             tileM.updateTile(col, row, 25);
         }
@@ -159,6 +183,7 @@ public final class zombie extends entity {
             tileM.updateTile(col, row, 35);
         }
 
+        //set tile in front of zombie to death tile
         if (gp.tileM.isZombiePath(col-1, row)){
             tileM.updateTile(col-1, row, 25);
         }
@@ -166,11 +191,28 @@ public final class zombie extends entity {
             tileM.updateTile(col-1, row, 35);
         }
 
+        //set tile behind zombie into normal tiles
         if (gp.tileM.isZombiePath(col+1, row)){
             tileM.updateTile(col+1, row, 24);
         }
         else if (gp.tileM.isTileDeath(col+1, row)){
             tileM.updateTile(col+1, row, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col, row+1)){
+                tileM.updateTile(col, row+1, 24);
+            } else if (gp.tileM.isTileDeath(col, row+1)){
+                tileM.updateTile(col, row+1, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col, row-1)){
+                tileM.updateTile(col, row-1, 24);
+            } else if (gp.tileM.isTileDeath(col, row-1)){
+                tileM.updateTile(col, row-1, 34);
+            }
         }
     }
 
@@ -178,12 +220,15 @@ public final class zombie extends entity {
         int col = (x + speed) / gp.tileSize;
         int row = y / gp.tileSize;
 
+        //set tile beneath zombie to death tile
         if (gp.tileM.isZombiePath(col, row)){
             tileM.updateTile(col, row, 25);
         }
         else if (gp.tileM.isPlayerPath(col, row)){
             tileM.updateTile(col, row, 35);
         }
+
+        //set tile in front of zombie to death tile
 
         if (gp.tileM.isZombiePath(col+1, row)){
             tileM.updateTile(col+1, row, 25);
@@ -192,11 +237,28 @@ public final class zombie extends entity {
             tileM.updateTile(col+1, row, 35);
         }
 
+        //set tile behind zombie into normal tiles
         if (gp.tileM.isZombiePath(col-1, row)){
             tileM.updateTile(col-1, row, 24);
         }
         else if (gp.tileM.isTileDeath(col-1, row)){
             tileM.updateTile(col-1, row, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col, row-1)){
+                tileM.updateTile(col, row-1, 24);
+            } else if (gp.tileM.isTileDeath(col, row-1)){
+                tileM.updateTile(col, row-1, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col, row+1)){
+                tileM.updateTile(col, row+1, 24);
+            } else if (gp.tileM.isTileDeath(col, row+1)){
+                tileM.updateTile(col, row+1, 34);
+            }
         }
     }
 
@@ -204,6 +266,7 @@ public final class zombie extends entity {
         int col = x / gp.tileSize;
         int row = (y - speed) / gp.tileSize;
 
+        //set tile beneath zombie to death tile
         if (gp.tileM.isZombiePath(col, row)){
             tileM.updateTile(col, row, 25);
         }
@@ -211,6 +274,7 @@ public final class zombie extends entity {
             tileM.updateTile(col, row, 35);
         }
 
+        //set tile in front of zombie to death tile
         if (gp.tileM.isZombiePath(col, row-1)){
             tileM.updateTile(col, row-1, 25);
         }
@@ -218,11 +282,28 @@ public final class zombie extends entity {
             tileM.updateTile(col, row-1, 35);
         }
 
+        //set tile behind zombie into normal tiles
         if (gp.tileM.isZombiePath(col, row+1)){
             tileM.updateTile(col, row+1, 24);
         }
         else if (gp.tileM.isTileDeath(col, row+1)){
             tileM.updateTile(col, row+1, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col-1, row)){
+                tileM.updateTile(col-1, row, 24);
+            } else if (gp.tileM.isTileDeath(col-1, row)){
+                tileM.updateTile(col-1, row, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col+1, row)){
+                tileM.updateTile(col+1, row, 24);
+            } else if (gp.tileM.isTileDeath(col+1, row)){
+                tileM.updateTile(col+1, row, 34);
+            }
         }
     }
 
@@ -230,6 +311,7 @@ public final class zombie extends entity {
         int col = x / gp.tileSize;
         int row = (y + speed) / gp.tileSize;
 
+        //set tile in front of zombie to death tile
         if (gp.tileM.isZombiePath(col, row)){
             tileM.updateTile(col, row, 25);
         }
@@ -237,6 +319,7 @@ public final class zombie extends entity {
             tileM.updateTile(col, row, 35);
         }
 
+        //set tile in front of zombie to death tile
         if (gp.tileM.isZombiePath(col, row+1)){
             tileM.updateTile(col, row+1, 25);
         }
@@ -244,11 +327,28 @@ public final class zombie extends entity {
             tileM.updateTile(col, row+1, 35);
         }
 
+        //set tile behind zombie into normal tiles
         if (gp.tileM.isZombiePath(col, row-1)){
             tileM.updateTile(col, row-1, 24);
         }
         else if (gp.tileM.isTileDeath(col, row-1)){
             tileM.updateTile(col, row-1, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col+1, row)){
+                tileM.updateTile(col+1, row, 24);
+            } else if (gp.tileM.isTileDeath(col+1, row)){
+                tileM.updateTile(col+1, row, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col-1, row)){
+                tileM.updateTile(col-1, row, 24);
+            } else if (gp.tileM.isTileDeath(col-1, row)){
+                tileM.updateTile(col-1, row, 34);
+            }
         }
     }
 

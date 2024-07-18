@@ -15,23 +15,20 @@ public final class player extends entity {
     private long lastMoveTime = 0;
     private final int cooldown = 500;
     protected boolean moved = false;
-    protected boolean zombieCanMove = false;
+    public static boolean zombieCanMove = false;
     GamePanel gp;
     keyHandler keyH;
 
     //Just a constructor to connect the main game panel
-    public player(GamePanel gp, keyHandler keyH) {
+    public player(GamePanel gp, keyHandler keyH, int x, int y) {
         this.gp = gp;
         this.keyH = keyH;
         getPlayerImage();
-        setDefaultValues();
-    }
-    //this is the default values where the player will spawn, DONT TOUCH THE SPEED
-    public void setDefaultValues() {
-        x = 640;
-        y = 256;
+        this.x = x;
+        this.y = y;
         speed = 64;
     }
+
     //to get the player image & animation
     public void getPlayerImage() {
         try {

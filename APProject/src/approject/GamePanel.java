@@ -3,6 +3,8 @@ package approject;
 import entity.player;
 import entity.zombie;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -21,11 +23,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxScreenRow = 12;
     final int screenWidth = maxScreenCol * tileSize;
     final int screenHeight = maxScreenRow * tileSize;
-    public tileManager tileM = new tileManager(this);
+    public tileManager tileM = new tileManager(this, 1);
     keyHandler keyH = new keyHandler();
     Thread gameThread;
-    player Player = new player(this , keyH);
-    zombie Zombie = new zombie(this, Player, tileM);
+    private List<zombie> zombies;
+    player Player = new player(this , keyH, 640, 256);
     private final int FPS = 60;
     //Sets up screen
     public GamePanel() {
@@ -35,6 +37,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
         this.requestFocus();
+
+        zombies = new ArrayList<>();
+        zombies.add(new zombie(this, Player, tileM, "rotate", 640, 384, "right", "right"));
+        zombies.add(new zombie(this, Player, tileM, "rotate", 448, 256, "right", "right"));
     }
     //Starts the time
     public void startGameThread() {
@@ -78,7 +84,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         //update the player
         Player.update();
-        Zombie.update();
+        for (zombie zombie : zombies) {
+            zombie.update();
+        }
+        player.zombieCanMove = false;
     }
     //render it
     @Override
@@ -87,7 +96,9 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         tileM.draw(g2);
         Player.draw(g2);
-        Zombie.draw(g2);
+        for (zombie zombie : zombies) {
+            zombie.draw(g2);
+        }
 
         g2.dispose();
     }
