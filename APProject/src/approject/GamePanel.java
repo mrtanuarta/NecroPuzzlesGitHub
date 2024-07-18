@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
             default:
                 throw new IllegalArgumentException("Invalid level number");
         }
+        this.tileM = new tileManager(this, levelNumber);
         System.out.println("Loaded level: " + levelNumber);
     }
 

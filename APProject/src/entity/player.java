@@ -16,6 +16,7 @@ public final class player extends entity {
     GamePanel gp;
     keyHandler keyH;
 
+
     public player(GamePanel gp, keyHandler keyH, int x, int y, String direction) {
         this.gp = gp;
         this.keyH = keyH;
@@ -24,6 +25,7 @@ public final class player extends entity {
         this.y = y;
         speed = 64;
         this.direction = direction;
+
     }
 
     public void getPlayerImage() {

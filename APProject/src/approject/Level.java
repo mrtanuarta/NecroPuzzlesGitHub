@@ -27,6 +27,7 @@ public abstract class Level {
         for (zombie zombie : zombies) {
             zombie.update();
         }
+        Player.zombieCanMove = false;
         Player.checkTileUpdates(Player.x, Player.y);
     }
 
