@@ -39,8 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.requestFocus();
 
         zombies = new ArrayList<>();
-        zombies.add(new zombie(this, Player, tileM, "rotate", 640, 384, "right", "right"));
-        zombies.add(new zombie(this, Player, tileM, "rotate", 448, 256, "right", "right"));
+        //3 types of zombies: "moving", "rotate", and "static"
+        //for rotate, you have to pass another value ("right" and "left) to the constructor
+        zombies.add(new zombie(this, Player, tileM, "moving", 640, 384, "left"));
+        zombies.add(new zombie(this, Player, tileM, "static", 448, 256, "right"));
     }
     //Starts the time
     public void startGameThread() {
