@@ -110,7 +110,19 @@ public final class zombie extends entity {
                     }
                 }
                 if (rotation.equals("left")){
-
+                    if (direction.equals("left")) {
+                        direction = "down";
+                        updateDownDeathTile(x, y - speed);
+                    } else if (direction.equals("up")) {
+                        direction = "left";
+                        updateLeftDeathTile(x + speed, y);
+                    } else if (direction.equals("right")) {
+                        direction = "up";
+                        updateUpDeathTile(x, y + speed);
+                    } else if (direction.equals("down")) {
+                        direction = "right";
+                        updateRightDeathTile(x - speed, y);
+                    }
                 }
             }
 

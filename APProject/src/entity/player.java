@@ -20,13 +20,14 @@ public final class player extends entity {
     keyHandler keyH;
 
     //Just a constructor to connect the main game panel
-    public player(GamePanel gp, keyHandler keyH, int x, int y) {
+    public player(GamePanel gp, keyHandler keyH, int x, int y, String direction) {
         this.gp = gp;
         this.keyH = keyH;
         getPlayerImage();
         this.x = x;
         this.y = y;
         speed = 64;
+        this.direction = direction;
     }
 
     //to get the player image & animation
@@ -49,10 +50,6 @@ public final class player extends entity {
     }
     //This is where the player movement is declared
     public void update() {
-        //This is too instantiate at the start when the player havent moven the default would be down
-        if (direction == null) {
-            direction = "down";
-        }
         //The current time for the cooldown
         long currentTime = System.currentTimeMillis();
         //Basically the frame changes 3 times every second, declaring it for the sprite

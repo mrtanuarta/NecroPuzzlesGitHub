@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     keyHandler keyH = new keyHandler();
     Thread gameThread;
     private List<zombie> zombies;
-    player Player = new player(this , keyH, 640, 256);
+    player Player = new player(this , keyH, 640, 256, "down");
     private final int FPS = 60;
     //Sets up screen
     public GamePanel() {
