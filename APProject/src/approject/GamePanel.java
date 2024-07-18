@@ -90,6 +90,8 @@ public class GamePanel extends JPanel implements Runnable {
             zombie.update();
         }
         player.zombieCanMove = false;
+        Player.checkTileUpdates(Player.x, Player.y);
+
     }
     //render it
     @Override
