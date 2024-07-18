@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
+
 import approject.GamePanel;
 import approject.keyHandler;
 import java.awt.Graphics2D;
@@ -19,7 +16,6 @@ public final class player extends entity {
     GamePanel gp;
     keyHandler keyH;
 
-    //Just a constructor to connect the main game panel
     public player(GamePanel gp, keyHandler keyH, int x, int y, String direction) {
         this.gp = gp;
         this.keyH = keyH;
@@ -30,7 +26,6 @@ public final class player extends entity {
         this.direction = direction;
     }
 
-    //to get the player image & animation
     public void getPlayerImage() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerUp1.png"));
@@ -48,13 +43,11 @@ public final class player extends entity {
             e.printStackTrace();
         }
     }
-    //This is where the player movement is declared
+
     public void update() {
-        //The current time for the cooldown
         long currentTime = System.currentTimeMillis();
-        //Basically the frame changes 3 times every second, declaring it for the sprite
         spriteAnim();
-        //This is for the player movement
+
         if (currentTime - lastMoveTime >= cooldown) {
             int newX = x, newY = y;
             moved = false;
@@ -63,45 +56,40 @@ public final class player extends entity {
                 newY -= speed;
                 direction = "up";
                 moved = true;
-            }
-            else if (keyH.downPressed) {
+            } else if (keyH.downPressed) {
                 newY += speed;
                 direction = "down";
                 moved = true;
-            }
-            else if (keyH.leftPressed) {
+            } else if (keyH.leftPressed) {
                 newX -= speed;
                 direction = "left";
                 moved = true;
-            }
-            else if (keyH.rightPressed) {
+            } else if (keyH.rightPressed) {
                 newX += speed;
                 direction = "right";
                 moved = true;
             }
-            //To check if it is able to move, if it hits a hitbox then this wont be updated
+
             if (moved && canMove(newX, newY)) {
                 zombieCanMove = true;
                 x = newX;
                 y = newY;
-                lastMoveTime = currentTime; // Update last move time
+                lastMoveTime = currentTime;
                 moveUpdate();
             }
-            //just reseting the pressed
+
             keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
         }
     }
-    //so if its able to move or no
+
     private boolean canMove(int newX, int newY) {
         int col = newX / gp.tileSize;
         int row = newY / gp.tileSize;
 
-        // Check if the new position is within the bounds of the map
         if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
             return false;
         }
 
-        // Check for collision at the new position
         return !gp.tileM.isTileCollision(col, row);
     }
 
@@ -128,12 +116,11 @@ public final class player extends entity {
         return gp.tileM.isTileVictory(col, row);
     }
 
-    //updating the moves so it shows how much move are there
     private void moveUpdate() {
         Moves++;
         System.out.println("Current Moves: " + Moves);
     }
-    //draw the sprite
+
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
@@ -152,7 +139,7 @@ public final class player extends entity {
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
-    //yeah for the sprite again
+
     public void spriteAnim() {
         spriteCounter++;
         if (spriteCounter > 20) {
@@ -161,5 +148,3 @@ public final class player extends entity {
         }
     }
 }
-
-
