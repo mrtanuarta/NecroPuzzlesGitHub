@@ -95,14 +95,22 @@ public final class player extends entity {
         return !gp.tileM.isTileCollision(col, row);
     }
 
+    private boolean zombieInteracted = false; // New flag to track interaction
+
+    // Constructor and other methods...
+
+    // This is the method where you check for interaction with the zombie
     public void checkTileUpdates(int x, int y) {
-        if (isDead(x, y)) {
+        if (!zombieInteracted && isDead(x, y)) {
             System.out.println("bozo ded");
+            zombieInteracted = true; // Set flag to true after interaction occurs
         }
-        if (isVictory(x, y)) {
+        if (!zombieInteracted && isVictory(x, y)) {
             System.out.println("yay W");
+            zombieInteracted = true; // Set flag to true after interaction occurs
         }
     }
+
 
     private boolean isDead(int newX, int newY) {
         int col = newX / gp.tileSize;
