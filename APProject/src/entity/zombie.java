@@ -1,6 +1,5 @@
 
 package entity;
-import tileCode.tileManager;
 import approject.GamePanel;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
