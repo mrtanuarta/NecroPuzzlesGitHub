@@ -1,43 +1,52 @@
+
 package entity;
+import tileCode.tileManager;
 import approject.GamePanel;
-import approject.keyHandler;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public final class zombie extends entity {
-    private int Moves = 0;
-    private long lastMoveTime = 0;
-    private final int cooldown = 500;
     GamePanel gp;
-    keyHandler keyH;
-    BufferedImage left, right;
-    String direction = "down"; // Default direction set to "down"
-    int x, y, speed;
-    int spriteCounter = 0;
-    int spriteNum = 1;
+    String direction, type, rotation;
+    private final player Player;
 
     // Just a constructor to connect the main game panel
-    public zombie(GamePanel gp, keyHandler keyH) {
+    public zombie(GamePanel gp, player Player, String type, int x, int y, String direction) {
+        this(gp, Player, type, x, y, direction, null);
+    }
+
+    public zombie(GamePanel gp, player Player, String type, int x, int y, String direction, String rotation) {
         this.gp = gp;
-        this.keyH = keyH;
+        this.Player = Player;
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        speed = 64;
+        this.direction = direction;
+        this.rotation = rotation;
         getZombieImage();
-        setDefaultValues();
     }
 
     // This is the default values where the zombie will spawn, DONT TOUCH THE SPEED
     public void setDefaultValues() {
-        x = 0;
-        y = 256;
+        x = 640;
+        y = 384;
         speed = 64;
     }
 
     // To get the zombie image & animation
     public void getZombieImage() {
         try {
-            left = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite1.png"));
-            right = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite3.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie11.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite3.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie31.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite4.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie41.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite2.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie21.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -48,68 +57,321 @@ public final class zombie extends entity {
 
     // This is where the zombie movement is declared
     public void update() {
-        // The current time for the cooldown
-        long currentTime = System.currentTimeMillis();
         // Basically the frame changes 3 times every second, declaring it for the sprite
         spriteAnim();
-        // This is for the zombie movement
-        if (currentTime - lastMoveTime >= cooldown) {
-            int newX = x, newY = y;
-            boolean moved = false;
 
-            if (keyH.leftPressed) {
-                newX -= speed;
-                direction = "left";
-                moved = true;
+        int newX = x, newY = y;
+
+        if (Player.zombieCanMove) {
+            if (type.equals("moving")) {
+                if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
+                    newX -= speed;
+                    updateLeftDeathTile(x, y);
+                } else if (direction.equals("right") && checkRight(x, y)) { // if right tile is a path tile
+                    newX += speed;
+                    updateRightDeathTile(x, y);
+                } else if (direction.equals("up") && checkUp(x, y)) { // if right tile is a path tile
+                    newY -= speed;
+                    updateUpDeathTile(x, y);
+                } else if (direction.equals("down") && checkDown(x, y)) { // if right tile is a path tile
+                    newY += speed;
+                    updateDownDeathTile(x, y);
+                }
+                //check if the zombie has reached the end of the path
+                else if (direction.equals("left") && !checkLeft(newX, newY)) {
+                    direction = "right";
+                    updateRightDeathTile(x - speed, y);
+                } else if (direction.equals("right") && !checkRight(newX, newY)) {
+                    direction = "left";
+                    updateLeftDeathTile(x + speed, y);
+                } else if (direction.equals("up") && !checkUp(newX, newY)) {
+                    direction = "down";
+                    updateDownDeathTile(x, y - speed);
+                } else if (direction.equals("down") && !checkDown(newX, newY)) {
+                    direction = "up";
+                    updateUpDeathTile(x, y + speed);
+                }
             }
-            if (keyH.rightPressed) {
-                newX += speed;
-                direction = "right";
-                moved = true;
-            }
-            // To check if it is able to move, if it hits a hitbox then this won't be updated
-            if (moved && canMove(newX, newY)) {
-                x = newX;
-                y = newY;
-                lastMoveTime = currentTime; // Update last move time
-                moveUpdate();
+            else if (type.equals("rotate")){
+                if (rotation.equals("right")){
+                    if (direction.equals("left")) {
+                        direction = "up";
+                        updateUpDeathTile(x, y + speed);
+                    } else if (direction.equals("up")) {
+                        direction = "right";
+                        updateRightDeathTile(x - speed, y);
+                    } else if (direction.equals("right")) {
+                        direction = "down";
+                        updateDownDeathTile(x, y - speed);
+                    } else if (direction.equals("down")) {
+                        direction = "left";
+                        updateLeftDeathTile(x + speed, y);
+                    }
+                }
+                if (rotation.equals("left")){
+                    if (direction.equals("left")) {
+                        direction = "down";
+                        updateDownDeathTile(x, y - speed);
+                    } else if (direction.equals("up")) {
+                        direction = "left";
+                        updateLeftDeathTile(x + speed, y);
+                    } else if (direction.equals("right")) {
+                        direction = "up";
+                        updateUpDeathTile(x, y + speed);
+                    } else if (direction.equals("down")) {
+                        direction = "right";
+                        updateRightDeathTile(x - speed, y);
+                    }
+                }
             }
 
-            // Just resetting the pressed keys
-            keyH.leftPressed = keyH.rightPressed = false;
+            x = newX;
+            y = newY;
         }
     }
 
-    // Check if it's able to move or not
-    private boolean canMove(int newX, int newY) {
-        int col = newX / gp.tileSize;
-        int row = newY / gp.tileSize;
+    public boolean checkLeft(int x, int y) {
+        int col = (x - speed) / gp.tileSize;
+        int row = y / gp.tileSize;
 
         // Check if the new position is within the bounds of the map
         if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
             return false;
         }
 
-        // Check for collision at the new position
-        return !gp.tileM.isTileCollision(col, row);
+        // Check for zombie path at the new position
+        return gp.tileM.isZombiePath(col, row);
     }
 
-    // Updating the moves so it shows how many moves there are
-    private void moveUpdate() {
-        Moves++;
-        System.out.println("Current Moves: " + Moves);
+    public boolean checkRight(int x, int y) {
+        int col = (x + speed) / gp.tileSize;
+        int row = y / gp.tileSize;
+
+        // Check if the new position is within the bounds of the map
+        if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
+            return false;
+        }
+
+        // Check for zombie path at the new position
+        return gp.tileM.isZombiePath(col, row);
     }
+
+    public boolean checkUp(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y - speed) / gp.tileSize;
+
+        // Check if the new position is within the bounds of the map
+        if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
+            return false;
+        }
+
+        // Check for zombie path at the new position
+        return gp.tileM.isZombiePath(col, row);
+    }
+
+    public boolean checkDown(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y + speed) / gp.tileSize;
+
+        // Check if the new position is within the bounds of the map
+        if (col < 0 || col >= gp.maxScreenCol || row < 0 || row >= gp.maxScreenRow) {
+            return false;
+        }
+
+        // Check for zombie path at the new position
+        return gp.tileM.isZombiePath(col, row);
+    }
+
+    public void updateLeftDeathTile(int x, int y) {
+        int col = (x - speed) / gp.tileSize;
+        int row = y / gp.tileSize;
+
+        //set tile beneath zombie to death tile
+        if (gp.tileM.isZombiePath(col, row)){
+            gp.tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            gp.tileM.updateTile(col, row, 35);
+        }
+
+        //set tile in front of zombie to death tile
+        if (gp.tileM.isZombiePath(col-1, row)){
+            gp.tileM.updateTile(col-1, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col-1, row)){
+            gp.tileM.updateTile(col-1, row, 35);
+        }
+
+        //set tile behind zombie into normal tiles
+        if (gp.tileM.isZombiePath(col+1, row)){
+            gp.tileM.updateTile(col+1, row, 24);
+        }
+        else if (gp.tileM.isTileDeath(col+1, row)){
+            gp.tileM.updateTile(col+1, row, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col, row+1)){
+                gp.tileM.updateTile(col, row+1, 24);
+            } else if (gp.tileM.isTileDeath(col, row+1)){
+                gp.tileM.updateTile(col, row+1, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col, row-1)){
+                gp.tileM.updateTile(col, row-1, 24);
+            } else if (gp.tileM.isTileDeath(col, row-1)){
+                gp.tileM.updateTile(col, row-1, 34);
+            }
+        }
+    }
+
+    public void updateRightDeathTile(int x, int y) {
+        int col = (x + speed) / gp.tileSize;
+        int row = y / gp.tileSize;
+
+        //set tile beneath zombie to death tile
+        if (gp.tileM.isZombiePath(col, row)){
+            gp.tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            gp.tileM.updateTile(col, row, 35);
+        }
+
+        //set tile in front of zombie to death tile
+
+        if (gp.tileM.isZombiePath(col+1, row)){
+            gp.tileM.updateTile(col+1, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col+1, row)){
+            gp.tileM.updateTile(col+1, row, 35);
+        }
+
+        //set tile behind zombie into normal tiles
+        if (gp.tileM.isZombiePath(col-1, row)){
+            gp.tileM.updateTile(col-1, row, 24);
+        }
+        else if (gp.tileM.isTileDeath(col-1, row)){
+            gp.tileM.updateTile(col-1, row, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col, row-1)){
+                gp.tileM.updateTile(col, row-1, 24);
+            } else if (gp.tileM.isTileDeath(col, row-1)){
+                gp.tileM.updateTile(col, row-1, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col, row+1)){
+                gp.tileM.updateTile(col, row+1, 24);
+            } else if (gp.tileM.isTileDeath(col, row+1)){
+                gp.tileM.updateTile(col, row+1, 34);
+            }
+        }
+    }
+
+    public void updateUpDeathTile(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y - speed) / gp.tileSize;
+
+        //set tile beneath zombie to death tile
+        if (gp.tileM.isZombiePath(col, row)){
+            gp.tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            gp.tileM.updateTile(col, row, 35);
+        }
+
+        //set tile in front of zombie to death tile
+        if (gp.tileM.isZombiePath(col, row-1)){
+            gp.tileM.updateTile(col, row-1, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row-1)){
+            gp.tileM.updateTile(col, row-1, 35);
+        }
+
+        //set tile behind zombie into normal tiles
+        if (gp.tileM.isZombiePath(col, row+1)){
+            gp.tileM.updateTile(col, row+1, 24);
+        }
+        else if (gp.tileM.isTileDeath(col, row+1)){
+            gp.tileM.updateTile(col, row+1, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col-1, row)){
+                gp.tileM.updateTile(col-1, row, 24);
+            } else if (gp.tileM.isTileDeath(col-1, row)){
+                gp.tileM.updateTile(col-1, row, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col+1, row)){
+                gp.tileM.updateTile(col+1, row, 24);
+            } else if (gp.tileM.isTileDeath(col+1, row)){
+                gp.tileM.updateTile(col+1, row, 34);
+            }
+        }
+    }
+
+    public void updateDownDeathTile(int x, int y) {
+        int col = x / gp.tileSize;
+        int row = (y + speed) / gp.tileSize;
+
+        //set tile in front of zombie to death tile
+        if (gp.tileM.isZombiePath(col, row)){
+            gp.tileM.updateTile(col, row, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row)){
+            gp.tileM.updateTile(col, row, 35);
+        }
+
+        //set tile in front of zombie to death tile
+        if (gp.tileM.isZombiePath(col, row+1)){
+            gp.tileM.updateTile(col, row+1, 25);
+        }
+        else if (gp.tileM.isPlayerPath(col, row+1)){
+            gp.tileM.updateTile(col, row+1, 35);
+        }
+
+        //set tile behind zombie into normal tiles
+        if (gp.tileM.isZombiePath(col, row-1)){
+            gp.tileM.updateTile(col, row-1, 24);
+        }
+        else if (gp.tileM.isTileDeath(col, row-1)){
+            gp.tileM.updateTile(col, row-1, 34);
+        }
+
+        if (type.equals("rotate")) {
+            //set tile left of zombie to normal
+            if (gp.tileM.isZombiePath(col+1, row)){
+                gp.tileM.updateTile(col+1, row, 24);
+            } else if (gp.tileM.isTileDeath(col+1, row)){
+                gp.tileM.updateTile(col+1, row, 34);
+            }
+
+            //set tile right of zombie to normal
+            if (gp.tileM.isZombiePath(col-1, row)){
+                gp.tileM.updateTile(col-1, row, 24);
+            } else if (gp.tileM.isTileDeath(col-1, row)){
+                gp.tileM.updateTile(col-1, row, 34);
+            }
+        }
+    }
+
 
     // Draw the sprite
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
-            case "left":
-                image = (spriteNum == 1) ? left : right;
-                break;
-            case "right":
-                image = (spriteNum == 1) ? right : left;
-                break;
+            case "left" -> image = (spriteNum == 1) ? left1 : left2;
+            case "right" -> image = (spriteNum == 1) ? right1 : right2;
+            case "up" -> image = (spriteNum == 1) ? up1 : up2;
+            case "down" -> image = (spriteNum == 1) ? down1 : down2;
         }
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
@@ -117,10 +379,9 @@ public final class zombie extends entity {
     // Sprite animation
     public void spriteAnim() {
         spriteCounter++;
-        if (spriteCounter > 20) {
+        if (spriteCounter > 40) {
             spriteNum = (spriteNum == 1) ? 2 : 1;
             spriteCounter = 0;
         }
     }
 }
-
