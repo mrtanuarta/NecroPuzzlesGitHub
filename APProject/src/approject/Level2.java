@@ -12,7 +12,7 @@ public class Level2 extends Level {
     protected void initializeLevel() {
         Player = new player(gp, gp.getKeyHandler(), 640, 256, "down");
         // Add specific zombies for level 2
-        zombies.add(new zombie(gp, Player, tileM, "rotate", 640, 384, "right", "right"));
-        zombies.add(new zombie(gp, Player, tileM, "rotate", 448, 256, "right", "right"));
+        zombies.add(new zombie(gp, Player, "rotate", 640, 384, "right", "right"));
+        zombies.add(new zombie(gp, Player, "rotate", 448, 256, "right", "left"));
     }
 }

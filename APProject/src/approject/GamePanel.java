@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.requestFocus();
 
-        loadLevel(1);  // Initialize the first level
+        loadLevel(1);
     }
 
     public keyHandler getKeyHandler() {
