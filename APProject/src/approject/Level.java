@@ -5,7 +5,6 @@ import entity.zombie;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import tileCode.tileManager;
 
 public abstract class Level {
     protected GamePanel gp;
