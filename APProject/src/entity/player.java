@@ -13,6 +13,7 @@ public final class player extends entity {
     private final int cooldown = 500;
     protected boolean moved = false;
     public static boolean zombieCanMove = false;
+    private boolean zombieInteracted = false; 
     GamePanel gp;
     keyHandler keyH;
 
@@ -96,11 +97,13 @@ public final class player extends entity {
     }
 
     public void checkTileUpdates(int x, int y) {
-        if (isDead(x, y)) {
+        if (!zombieInteracted && isDead(x, y)) {
             System.out.println("bozo ded");
+            zombieInteracted = true;
         }
-        if (isVictory(x, y)) {
+        if (!zombieInteracted && isVictory(x, y)) {
             System.out.println("yay W");
+            zombieInteracted = true;
         }
     }
 
