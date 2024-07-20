@@ -28,24 +28,17 @@ public final class zombie extends entity {
         getZombieImage();
     }
 
-    // This is the default values where the zombie will spawn, DONT TOUCH THE SPEED
-    public void setDefaultValues() {
-        x = 640;
-        y = 384;
-        speed = 64;
-    }
-
     // To get the zombie image & animation
     public void getZombieImage() {
         try {
-            left1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie11.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite3.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie31.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite4.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie41.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/zombie/ZombieSprite2.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/zombie/Zombie21.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/ZombieSprite1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/Zombie11.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/ZombieSprite3.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/Zombie31.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/ZombieSprite4.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/Zombie41.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/ZombieSprite2.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/zombie/Zombie21.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

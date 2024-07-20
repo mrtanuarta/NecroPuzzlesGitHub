@@ -30,14 +30,14 @@ public final class player extends entity {
 
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerUp1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerUp2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerLeft1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerLeft2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerRight1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerRight2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerDown1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerDown2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerUp1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerUp2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerLeft1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerLeft2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerRight1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerRight2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerDown1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerDown2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -96,8 +96,6 @@ public final class player extends entity {
     }
 
     private boolean zombieInteracted = false; // New flag to track interaction
-
-    // Constructor and other methods...
 
     // This is the method where you check for interaction with the zombie
     public void checkTileUpdates(int x, int y) {
