@@ -25,9 +25,10 @@ public final class button extends entity {
                     System.out.println("Button pushed");
                 }
             }
-            else if (type.equals("box")) {
-
-            }
+//            else if (type.equals("box")) {
+//
+//            }
+            //will continue the box type if we have time
             chgBtnState(state);
         }
 
