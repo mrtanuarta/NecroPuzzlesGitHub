@@ -19,16 +19,16 @@ public final class button extends entity {
 
     public void update() {
         if (Player.zombieCanMove) {
-            String curState = state;
             if (type.equals("player")) {
                 if (Player.x == x && Player.y == y && state == "up") {
                     state = "down";
+                    System.out.println("Button pushed");
                 }
             }
             else if (type.equals("box")) {
 
             }
-            chgBtnState(curState);
+            chgBtnState(state);
         }
 
 

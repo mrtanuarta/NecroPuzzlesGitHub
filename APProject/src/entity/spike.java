@@ -21,7 +21,6 @@ public final class spike extends entity {
 
     public void update() {
         if (Player.zombieCanMove) {
-            String curState = state;
             if (type.equals("cycle")){
                 if (state.equals("up")){
                     state = "down";
@@ -35,7 +34,7 @@ public final class spike extends entity {
                     state = "down";
                 }
             }
-            chgSpikeState(curState);
+            chgSpikeState(state);
         }
     }
 

@@ -12,14 +12,14 @@ public abstract class Level {
     protected GamePanel gp;
     protected player Player;
     protected List<zombie> zombies;
-    protected List<spike> spikes;
     protected List<button> buttons;
+    protected List<spike> spikes;
 
     public Level(GamePanel gp, int levelNumber) {
         this.gp = gp;
         this.zombies = new ArrayList<>();
-        this.spikes = new ArrayList<>();
         this.buttons = new ArrayList<>();
+        this.spikes = new ArrayList<>();
         initializeLevel();
     }
 
@@ -27,14 +27,14 @@ public abstract class Level {
 
     public void update() {
         Player.update();
-        for (zombie zombie : zombies) {
-            zombie.update();
-        }
         for (button button : buttons) {
             button.update();
         }
         for (spike spike : spikes) {
             spike.update();
+        }
+        for (zombie zombie : zombies) {
+            zombie.update();
         }
 
         Player.zombieCanMove = false;
