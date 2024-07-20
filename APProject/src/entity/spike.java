@@ -23,12 +23,12 @@ public final class spike extends entity {
                 if (state.equals("up")){
                     state = "down";
                 }
-                if (state.equals("down")){
+                else if (state.equals("down")){
                     state = "up";
                 }
             }
-            if (type.equals("button")) {
-
+            else if (type.equals("button")) {
+                if ()
             }
         }
 
