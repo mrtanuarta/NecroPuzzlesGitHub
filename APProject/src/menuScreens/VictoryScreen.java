@@ -14,59 +14,59 @@
 //import javafx.scene.text.FontWeight;
 //import javafx.stage.Stage;
 //
-//public class DeathScreen extends Application {
+//public class VictoryScreen extends Application {
 //
-//    private static final String IMAGE_PATH = "/Images/Dead.png";
+//    private static final String IMAGE_PATH = "/Images/Win.png";
 //    private static final String FONT_FAMILY = "Arial";
 //    private static final double LOGO_WIDTH = 400;
 //    private static final double FONT_SIZE_LABEL = 24;
 //
 //    @Override
 //    public void start(Stage primaryStage) {
-//        primaryStage.setTitle("Death Screen");
+//        primaryStage.setTitle("Victory Screen");
 //
 //        // Create the logo box
 //        VBox logoBox = createLogoBox();
 //
-//        // Create "YOU LOSE" label
-//        Label youLoseLabel = new Label("YOU LOSE");
-//        youLoseLabel.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, 48));
-//        youLoseLabel.setTextFill(Color.RED);
-//        youLoseLabel.setAlignment(Pos.CENTER);
+//        // Create "YOU WIN" label
+//        Label youWinLabel = new Label("YOU WIN");
+//        youWinLabel.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, 48));
+//        youWinLabel.setTextFill(Color.LIMEGREEN);
+//        youWinLabel.setAlignment(Pos.CENTER);
 //
-//        // VBox to hold the "YOU LOSE" label
-//        VBox youLoseBox = new VBox(youLoseLabel);
-//        youLoseBox.setAlignment(Pos.CENTER);
-//        youLoseBox.setPadding(new Insets(-150, 0, 20, 0));
+//        // VBox to hold the "YOU WIN" label
+//        VBox youWinBox = new VBox(youWinLabel);
+//        youWinBox.setAlignment(Pos.CENTER);
+//        youWinBox.setPadding(new Insets(-150, 0, 20, 0));
 //
-//        // Create "Restart" button
-//        Button restartButton = new Button("Restart");
-//        restartButton.setStyle("-fx-font-size: 24px; -fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 2px;");
-//        restartButton.setPrefSize(200, 50);
-//        restartButton.setPadding(new Insets(5, 0, 0, 0));
-//        restartButton.setOnAction(e -> {
-//            System.out.println("Restart clicked!");
-//            restartLevel(primaryStage); // Call the method to restart the level
+//        // Create "Next Level" button
+//        Button nextLevelButton = new Button("Next Level");
+//        nextLevelButton.setStyle("-fx-font-size: 24px; -fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 2px;");
+//        nextLevelButton.setPrefSize(200, 50);
+//        nextLevelButton.setPadding(new Insets(5, 0, 0, 0));
+//        nextLevelButton.setOnAction(e -> {
+//            System.out.println("Next Level clicked!");
+//            loadNextLevel(primaryStage);
 //        });
 //
 //        // Create "Quit" button
 //        Button quitButton = new Button("Quit");
 //        quitButton.setStyle("-fx-font-size: 24px; -fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 2px;");
 //        quitButton.setPrefSize(200, 50);
-//        quitButton.setPadding(new Insets(5, 0, 0, 0)); // Adjust padding to move text up
+//        quitButton.setPadding(new Insets(5, 0, 0, 0));
 //        quitButton.setOnAction(e -> {
 //            System.exit(0);
 //        });
 //
 //        // VBox to hold the buttons vertically
-//        VBox buttonBox = new VBox(20, restartButton, quitButton);
+//        VBox buttonBox = new VBox(20, nextLevelButton, quitButton);
 //        buttonBox.setAlignment(Pos.CENTER);
 //        buttonBox.setStyle("-fx-padding: 20px;");
 //
 //        // BorderPane to layout the image, label, and buttons
 //        BorderPane root = new BorderPane();
 //        root.setTop(logoBox);
-//        root.setCenter(youLoseBox);
+//        root.setCenter(youWinBox);
 //        root.setBottom(buttonBox);
 //        root.setStyle("-fx-background-color: black;");
 //
@@ -91,7 +91,7 @@
 //            logoImageView.setFitWidth(LOGO_WIDTH);
 //            logoImageView.setPreserveRatio(true);
 //            logoBox.getChildren().add(logoImageView);
-//        }           else {
+//        }       else {
 //            System.err.println("Image file not found: " + IMAGE_PATH);
 //            Label imageNotFoundLabel = new Label("Image not found");
 //            imageNotFoundLabel.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, FONT_SIZE_LABEL));
@@ -102,9 +102,10 @@
 //        return logoBox;
 //    }
 //
-//    // Method to restart the level
-//    private void restartLevel(Stage primaryStage) {
-//        start(primaryStage);
+//    // Method to load the next level
+//    private void loadNextLevel(Stage primaryStage) {
+//        System.out.println("Loading the next level...");
+//
 //    }
 //
 //    public static void main(String[] args) {
