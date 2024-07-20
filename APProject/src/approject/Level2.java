@@ -2,6 +2,8 @@ package approject;
 
 import entity.player;
 import entity.zombie;
+import entity.button;
+import entity.spike;
 
 public class Level2 extends Level {
     public Level2(GamePanel gp) {
@@ -17,5 +19,10 @@ public class Level2 extends Level {
         zombies.add(new zombie(gp, Player, "moving", 512, 448, "right", "left"));
         zombies.add(new zombie(gp, Player, "moving", 256, 320, "down"));
         zombies.add(new zombie(gp, Player, "moving", 320, 256, "down"));
+
+        buttons.add(new button(gp, Player, "player",512 ,512, "up"));
+
+        spikes.add(new spike(gp, Player, "cycle", 384, 384, "up", ));
+        spikes.add(new spike(gp, Player, "cycle", 384, 448, "up", ));
     }
 }
