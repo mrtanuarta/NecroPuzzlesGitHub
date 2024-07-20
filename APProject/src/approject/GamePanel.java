@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.requestFocus();
 
-        loadLevel(3);
+        loadLevel(4);
     }
 
     public keyHandler getKeyHandler() {
@@ -44,6 +44,9 @@ public class GamePanel extends JPanel implements Runnable {
                 break;
             case 3:
                 currentLevel = new Level3(this);
+                break;
+            case 4:
+                currentLevel = new Level4(this);
                 break;
             
             default:
