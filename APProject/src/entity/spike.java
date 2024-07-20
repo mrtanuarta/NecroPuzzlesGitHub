@@ -6,6 +6,7 @@ public final class spike extends entity {
     String type, state;
     private final player Player;
     private final button Button;
+    private boolean triggeredByButton;
 
 
     // Just a constructor to connect the main game panel
@@ -17,22 +18,28 @@ public final class spike extends entity {
         this.y = y;
         this.state = state;
         this.Button = Button;
+        this.triggeredByButton = false;
     }
 
     public void update() {
         if (Player.zombieCanMove) {
-            if (type.equals("cycle")){
+//            if (type.equals("cycle")){
+//                if (state.equals("up")){
+//                    state = "down";
+//                }
+//                else if (state.equals("down")){
+//                    state = "up";
+//                }
+//            }
+            //in case we ever want cycling spikes
+            if (Button.state.equals("down") && !triggeredByButton) {
                 if (state.equals("up")){
                     state = "down";
                 }
                 else if (state.equals("down")){
                     state = "up";
                 }
-            }
-            else if (Button.state.equals("down")) {
-                if (state.equals("up")){
-                    state = "down";
-                }
+                triggeredByButton = true;
             }
             chgSpikeState(state);
         }
