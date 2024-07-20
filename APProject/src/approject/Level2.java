@@ -22,7 +22,7 @@ public class Level2 extends Level {
 
         buttons.add(new button(gp, Player, "player",512 ,512, "up"));
 
-        spikes.add(new spike(gp, Player, "cycle", 384, 384, "up", ));
-        spikes.add(new spike(gp, Player, "cycle", 384, 448, "up", ));
+        spikes.add(new spike(gp, Player, "button", 384, 384, "up", buttons.get(0)));
+        spikes.add(new spike(gp, Player, "button", 384, 448, "up", buttons.get(0)));
     }
 }

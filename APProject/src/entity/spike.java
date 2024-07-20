@@ -16,7 +16,7 @@ public final class spike extends entity {
         this.x = x;
         this.y = y;
         this.state = state;
-        this.Button = button;
+        this.Button = Button;
     }
 
     public void update() {
@@ -30,8 +30,10 @@ public final class spike extends entity {
                     state = "up";
                 }
             }
-            else if (type.equals("button")) {
-
+            else if (Button.state.equals("down")) {
+                if (state.equals("up")){
+                    state = "down";
+                }
             }
             chgSpikeState(curState);
         }

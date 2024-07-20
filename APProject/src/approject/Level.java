@@ -30,12 +30,13 @@ public abstract class Level {
         for (zombie zombie : zombies) {
             zombie.update();
         }
-        for (spike spike : spikes) {
-            spike.update();
-        }
         for (button button : buttons) {
             button.update();
         }
+        for (spike spike : spikes) {
+            spike.update();
+        }
+
         Player.zombieCanMove = false;
         Player.checkTileUpdates(Player.x, Player.y);
     }
