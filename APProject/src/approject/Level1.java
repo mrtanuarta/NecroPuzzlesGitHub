@@ -16,5 +16,7 @@ public class Level1 extends Level {
         Player = new player(gp, gp.getKeyHandler(), 640, 256, "down");
         zombies.add(new zombie(gp, Player, "moving", 640, 384, "left"));
         zombies.add(new zombie(gp, Player, "static", 448, 256, "right"));
+        Player.zombieCanMove = true;
+
     }
 }
