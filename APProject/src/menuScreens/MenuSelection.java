@@ -36,7 +36,7 @@ public class MenuSelection {
         optionsPanel.setBackground(Color.BLACK);
         optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
 
-        String[] menuOptions = {"New Game", "Level Selection", "Resume", "Settings", "Quit"};
+        String[] menuOptions = {"New Game", "Level Selection", "Quit"};
         for (String option : menuOptions) {
             JLabel optionLabel = createOptionLabel(option);
             options.add(optionLabel);

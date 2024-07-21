@@ -14,6 +14,7 @@ public class MainApp {
     private GamePanel gamePanel;
     private DeathScreen deathScreen;
     private VictoryScreen victoryScreen;
+    private PauseScreen pauseScreen;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainApp().createAndShowGUI());
@@ -30,7 +31,7 @@ public class MainApp {
 
         menuSelection = new MenuSelection(this);
         levelSelection = new LevelSelection(this);
-        gamePanel = new GamePanel(this); // Pass the main app instance to the game panel
+        gamePanel = new GamePanel(this);
 
         cardPanel.add(menuSelection.getMenuPanel(), "Menu");
         cardPanel.add(levelSelection.getLevelPanel(), "LevelSelection");
@@ -40,6 +41,16 @@ public class MainApp {
         frame.setVisible(true);
 
         showMenu();
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (gamePanel != null) {
+                    gamePanel.stopGame(); // Stop the game loop
+                }
+                System.exit(0);
+            }
+        });
     }
 
     public void showMenu() {
@@ -51,6 +62,9 @@ public class MainApp {
     }
 
     public void startGame(int levelNumber) {
+        if (gamePanel != null) {
+            gamePanel.stopGame();
+        }
         gamePanel.loadLevel(levelNumber);
         cardLayout.show(cardPanel, "Game");
         gamePanel.requestFocus();
@@ -76,5 +90,13 @@ public class MainApp {
         }
         cardPanel.add(victoryScreen,"VictoryScreen");
         cardLayout.show(cardPanel,"VictoryScreen");
+    }
+
+    public void showPauseScreen() {
+        if (pauseScreen == null) {
+            pauseScreen = new PauseScreen(this, gamePanel); // Pass GamePanel to PauseScreen
+        }
+        cardPanel.add(pauseScreen, "PauseScreen");
+        cardLayout.show(cardPanel, "PauseScreen");
     }
 }

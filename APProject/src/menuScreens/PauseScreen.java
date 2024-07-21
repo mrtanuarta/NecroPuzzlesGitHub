@@ -1,64 +1,77 @@
 package menuScreens;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import gamePanel.GamePanel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PauseScreen extends JFrame {
-    
-    private static final int gameWidth = 1024;
-    private static final int gameHeight = 768;
-    
-    public PauseScreen() {
-        setTitle("NecroZombie");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(gameWidth, gameHeight);
-        setLocationRelativeTo(null); // Center the frame on screen
-        
+public class PauseScreen extends JPanel {
+
+    private GamePanel gamePanel;
+    private MainApp mainApp;
+
+    public PauseScreen(MainApp mainApp, GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+        this.mainApp = mainApp;
+        initialize();
+    }
+
+    private void initialize() {
+        setLayout(new BorderLayout());
+        setBackground(Color.BLACK);
+
         // Create the panel for buttons
         JPanel buttonPanel = new JPanel(new GridLayout(4, 1, 0, 20)); // 4 rows, 1 column, 20px vertical gap
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50)); // Increased padding
-        
+
         // Create buttons
         JButton resumeButton = createButton("Resume");
         JButton restartButton = createButton("Restart");
-        JButton quitButton = createButton("Back to Menu");
-        
+        JButton backToMenuButton = createButton("Back to Menu");
+
+        // Add listeners to buttons
+        resumeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resumeGame();
+            }
+        });
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                restartGame();
+            }
+        });
+        backToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backToMenu();
+            }
+        });
+
         // Add buttons to panel
         buttonPanel.add(resumeButton);
         buttonPanel.add(restartButton);
-        buttonPanel.add(quitButton);
-        
+        buttonPanel.add(backToMenuButton);
+
         // Create label for "Paused" text
         JLabel pausedLabel = new JLabel("Paused", SwingConstants.CENTER);
         pausedLabel.setForeground(Color.WHITE);
         pausedLabel.setFont(new Font("Arial", Font.BOLD, 36)); // Larger font size
-        
+
         // Create panel for the "Paused" label
         JPanel pausedPanel = new JPanel(new BorderLayout());
         pausedPanel.setBackground(Color.BLACK);
         pausedPanel.add(pausedLabel, BorderLayout.CENTER);
         pausedPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 0)); // Adjusted padding
-        
+
         // Add panels to main content pane
-        JPanel contentPane = new JPanel(new BorderLayout());
-        contentPane.setBackground(Color.BLACK);
-        contentPane.add(buttonPanel, BorderLayout.CENTER);
-        contentPane.add(pausedPanel, BorderLayout.NORTH);
-        
-        setContentPane(contentPane);
-        setVisible(true);
+        add(buttonPanel, BorderLayout.CENTER);
+        add(pausedPanel, BorderLayout.NORTH);
     }
-    
+
     // Method to create a styled JButton
     private JButton createButton(String text) {
         JButton button = new JButton(text);
@@ -69,13 +82,34 @@ public class PauseScreen extends JFrame {
         button.setMargin(new Insets(20, 40, 20, 40)); // Increased padding
         return button;
     }
-    
-    public static void main(String[] args) {
-        // Ensure the Swing components are created on the Event Dispatch Thread (EDT)
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new PauseScreen();
-            }
-        });
+
+    // Resume the game
+    private void resumeGame() {
+        this.setVisible(false);
+
+        gamePanel.setVisible(true);
+        gamePanel.setFocusable(true);
+        gamePanel.requestFocusInWindow();
+
+        gamePanel.resumeGame();
+    }
+
+    // Restart the game
+    private void restartGame() {
+        // Hide the panel
+        this.setVisible(false);
+        // Reload current level
+        gamePanel.loadLevel(gamePanel.levelNumber);
+        // Ensure game panel gets focus
+        gamePanel.setVisible(true);
+        gamePanel.setFocusable(true);
+        gamePanel.requestFocusInWindow();
+    }
+
+    // Go back to the main menu
+    private void backToMenu() {
+        gamePanel.stopGame();
+        this.setVisible(false); // Hide the panel
+        mainApp.showMenu(); // Show the main menu
     }
 }

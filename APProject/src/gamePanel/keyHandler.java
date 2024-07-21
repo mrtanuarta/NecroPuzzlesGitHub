@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class keyHandler implements KeyListener {
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, escapePressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -26,8 +26,11 @@ public class keyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
         }
+        if (code == KeyEvent.VK_ESCAPE) {
+            escapePressed = true;
+        }
     }
-    //dont really mind this shit
+    //don't really mind this shit
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
@@ -44,6 +47,9 @@ public class keyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }
+        if (code == KeyEvent.VK_ESCAPE) {
+            escapePressed = false;
+        }
     }
     //this is used to reset the keys
     public void resetKeys() {
@@ -51,5 +57,6 @@ public class keyHandler implements KeyListener {
         downPressed = false;
         leftPressed = false;
         rightPressed = false;
+        escapePressed = false;
     }
 }

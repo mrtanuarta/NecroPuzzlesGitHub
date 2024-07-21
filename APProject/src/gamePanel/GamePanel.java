@@ -17,11 +17,12 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenHeight = maxScreenRow * tileSize;
     public tileManager tileM;
     keyHandler keyH = new keyHandler();
-    Thread gameThread;
+    private Thread gameThread;
     public Level currentLevel;
     private final int FPS = 60;
     private MainApp mainApp;
     public int levelNumber;
+    private boolean running;
 
 
     public GamePanel(MainApp mainApp) {
@@ -59,37 +60,46 @@ public class GamePanel extends JPanel implements Runnable {
         startGameThread();
     }
 
-    public void startGameThread() {
-        if (gameThread != null) {
-            gameThread.interrupt(); // Stop any existing thread
+    public void pauseGame() {
+        if (mainApp != null) {
+            mainApp.showPauseScreen(); // Show the pause screen
+            this.stopGame(); // Stop the game loop
         }
-        gameThread = new Thread(this);
-        gameThread.start();
     }
+
+    public void startGameThread() {
+        if (gameThread == null) {
+            gameThread = new Thread(this);
+            running = true;
+            gameThread.start();
+        }
+    }
+
+    public void resumeGame() {
+        startGameThread();
+    }
+
+    public void stopGame() {
+        running = false;
+        if (gameThread != null) {
+            gameThread.interrupt();
+            gameThread = null;
+        }
+    }
+
 
     @Override
     public void run() {
-        double drawInterval = 1000000000.0 / FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
-
-        while (gameThread != null) {
+        while (running) {
             update();
             repaint();
 
             try {
-                double remainingTime = nextDrawTime - System.nanoTime();
-                remainingTime /= 1000000;
-
-                if (remainingTime > 0) {
-                    Thread.sleep((long) remainingTime);
-                }
-
-                nextDrawTime += drawInterval;
-                while (nextDrawTime < System.nanoTime()) {
-                    nextDrawTime += drawInterval;
-                }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(GamePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                Thread.sleep(16); // Approx 60 FPS
+            } catch (InterruptedException e) {
+                // Handle the interrupt, probably by breaking the loop
+                running = false;
+                System.err.println("Game thread interrupted");
             }
         }
     }

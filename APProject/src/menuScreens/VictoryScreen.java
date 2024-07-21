@@ -60,7 +60,7 @@ public class VictoryScreen extends JPanel {
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                mainApp.showMenu();
             }
         });
 

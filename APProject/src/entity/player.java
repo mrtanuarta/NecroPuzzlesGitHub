@@ -1,8 +1,11 @@
 package entity;
 
+import com.sun.tools.javac.Main;
 import gamePanel.GamePanel;
 import gamePanel.keyHandler;
 import gamePanel.Level;
+import menuScreens.MainApp;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -69,6 +72,8 @@ public final class player extends entity {
                 newX += speed;
                 direction = "right";
                 moved = true;
+            } else if (keyH.escapePressed) {
+                gp.pauseGame();
             }
 
             if (moved && canMove(newX, newY)) {
@@ -79,7 +84,7 @@ public final class player extends entity {
                 moveUpdate();
             }
 
-            keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
+            keyH.resetKeys();
         }
     }
 
