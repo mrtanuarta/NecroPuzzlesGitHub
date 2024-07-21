@@ -60,6 +60,7 @@ public class DeathScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainApp.showMenu();
+                System.out.println("Back to menu");
             }
         });
 
@@ -99,6 +100,7 @@ public class DeathScreen extends JPanel {
 
     public void restartLevel(){
         mainApp.startGame(levelNum); // Call the method to restart the game
+        System.out.println("Level restarted");
     }
 
     public void updateLevelNumber(int levelNum) {

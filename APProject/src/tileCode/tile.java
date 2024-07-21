@@ -16,10 +16,12 @@ public class tile {
     public BufferedImage image;
     //This is collision for a tile
     public boolean collision = false;
-    //if the player stands here their death (i havent touched it)
+    //if the player stands here their death (i haven't touched it)
     public boolean death = false;
     //if the player stands here they win
     public boolean victory = false;
+    //checks for zombie path
     public boolean zombiePath = false;
+    //checks for player path
     public boolean playerPath = false;
 }

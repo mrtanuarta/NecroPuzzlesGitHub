@@ -10,6 +10,7 @@ public class keyHandler implements KeyListener {
     public void keyTyped(KeyEvent e) {
         // Not used
     }
+
     //So when the key is pressed it will set the boolean above to true
     @Override
     public void keyPressed(KeyEvent e) {

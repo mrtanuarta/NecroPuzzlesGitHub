@@ -104,10 +104,13 @@ public class PauseScreen extends JPanel {
         gamePanel.setVisible(true);
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
+
+        System.out.println("Game restarted");
     }
 
     // Go back to the main menu
     private void backToMenu() {
+        System.out.println("Back to menu");
         gamePanel.stopGame();
         this.setVisible(false); // Hide the panel
         mainApp.showMenu(); // Show the main menu

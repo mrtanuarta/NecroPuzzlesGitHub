@@ -30,8 +30,8 @@ public class MenuSelection {
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.BLACK);
         logoPanel.setPreferredSize(new Dimension(800, 350));
-        logoPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Add top margin
-        JLabel logoLabel = createLogoLabel("/menuResources/NecroPuzzles.png"); // Replace with your image path
+        logoPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0));
+        JLabel logoLabel = createLogoLabel("/menuResources/NecroPuzzles.png");
         logoPanel.add(logoLabel);
 
         // Options Panel
@@ -90,7 +90,7 @@ public class MenuSelection {
 
     private JLabel createOptionLabel(String option) {
         JLabel optionLabel = new JLabel(option.toUpperCase());
-        optionLabel.setFont(NORMAL_FONT); // Normal font size
+        optionLabel.setFont(NORMAL_FONT);
         optionLabel.setForeground(Color.WHITE);
         return optionLabel;
     }
@@ -108,7 +108,6 @@ public class MenuSelection {
             case "> QUIT":
                 System.exit(0);
                 break;
-            // Add cases for other menu options as needed
         }
     }
 

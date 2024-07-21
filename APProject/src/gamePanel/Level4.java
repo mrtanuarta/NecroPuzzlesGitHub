@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gamePanel;
 
 import entity.player;
@@ -31,7 +27,8 @@ public class Level4 extends Level {
         
         spikes.add(new spike(gp, Player, "button", 384, 192, "up", buttons.get(0)));
         spikes.add(new spike(gp, Player, "button", 256, 448, "up", buttons.get(0)));
-        Player.zombieCanMove = true;
 
+        //inserts the level tiles when you first load the level
+        Player.zombieCanMove = true;
     }
 }

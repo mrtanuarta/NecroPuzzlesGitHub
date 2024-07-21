@@ -11,11 +11,12 @@ public final class zombie extends entity {
     String direction, type, rotation;
     private final player Player;
 
-    // Just a constructor to connect the main game panel
+    //moving zombie or static zombie constructor
     public zombie(GamePanel gp, player Player, String type, int x, int y, String direction) {
         this(gp, Player, type, x, y, direction, null);
     }
 
+    //main constructor (optimized for rotating zombie)
     public zombie(GamePanel gp, player Player, String type, int x, int y, String direction, String rotation) {
         this.gp = gp;
         this.Player = Player;
@@ -55,6 +56,7 @@ public final class zombie extends entity {
         int newX = x, newY = y;
 
         if (Player.zombieCanMove) {
+            //for moving zombies
             if (type.equals("moving")) {
                 if (direction.equals("left") && checkLeft(x, y)) { // if left tile is a path tile
                     newX -= speed;
@@ -84,7 +86,10 @@ public final class zombie extends entity {
                     updateUpDeathTile(x, y + speed);
                 }
             }
+
+            //for rotating zombies
             else if (type.equals("rotate")){
+                //if zombie rotates to the right
                 if (rotation.equals("right")){
                     if (direction.equals("left")) {
                         direction = "up";
@@ -100,6 +105,8 @@ public final class zombie extends entity {
                         updateLeftDeathTile(x + speed, y);
                     }
                 }
+
+                //if zombie rotates to the left
                 if (rotation.equals("left")){
                     if (direction.equals("left")) {
                         direction = "down";
@@ -116,12 +123,16 @@ public final class zombie extends entity {
                     }
                 }
             }
-
+            //updates the current location to the zombies
             x = newX;
             y = newY;
         }
     }
 
+    //from this point here, the mess starts to pile up... sorry bout that ;-;
+    //the code is dumb as rocks, but it works ¯\_(ツ)_/¯
+
+    //check left tile for path
     public boolean checkLeft(int x, int y) {
         int col = (x - speed) / gp.tileSize;
         int row = y / gp.tileSize;
@@ -135,6 +146,7 @@ public final class zombie extends entity {
         return gp.tileM.isZombiePath(col, row);
     }
 
+    //check right tile for path
     public boolean checkRight(int x, int y) {
         int col = (x + speed) / gp.tileSize;
         int row = y / gp.tileSize;
@@ -148,6 +160,7 @@ public final class zombie extends entity {
         return gp.tileM.isZombiePath(col, row);
     }
 
+    //check above tile for path
     public boolean checkUp(int x, int y) {
         int col = x / gp.tileSize;
         int row = (y - speed) / gp.tileSize;
@@ -161,6 +174,7 @@ public final class zombie extends entity {
         return gp.tileM.isZombiePath(col, row);
     }
 
+    //check below tile for path
     public boolean checkDown(int x, int y) {
         int col = x / gp.tileSize;
         int row = (y + speed) / gp.tileSize;
@@ -174,6 +188,8 @@ public final class zombie extends entity {
         return gp.tileM.isZombiePath(col, row);
     }
 
+
+    //updates left tile and surroundings to its respective tile type
     public void updateLeftDeathTile(int x, int y) {
         int col = (x - speed) / gp.tileSize;
         int row = y / gp.tileSize;
@@ -202,6 +218,7 @@ public final class zombie extends entity {
             gp.tileM.updateTile(col+1, row, 34);
         }
 
+        //updates for the rotating zombie
         if (type.equals("rotate")) {
             //set tile left of zombie to normal
             if (gp.tileM.isZombiePath(col, row+1)){
@@ -219,6 +236,7 @@ public final class zombie extends entity {
         }
     }
 
+    //updates right tile and surroundings to its respective tile type
     public void updateRightDeathTile(int x, int y) {
         int col = (x + speed) / gp.tileSize;
         int row = y / gp.tileSize;
@@ -248,6 +266,7 @@ public final class zombie extends entity {
             gp.tileM.updateTile(col-1, row, 34);
         }
 
+        //updates for the rotating zombie
         if (type.equals("rotate")) {
             //set tile left of zombie to normal
             if (gp.tileM.isZombiePath(col, row-1)){
@@ -265,6 +284,7 @@ public final class zombie extends entity {
         }
     }
 
+    //updates above tile and surroundings to its respective tile type
     public void updateUpDeathTile(int x, int y) {
         int col = x / gp.tileSize;
         int row = (y - speed) / gp.tileSize;
@@ -293,6 +313,7 @@ public final class zombie extends entity {
             gp.tileM.updateTile(col, row+1, 34);
         }
 
+        //updates for the rotating zombie
         if (type.equals("rotate")) {
             //set tile left of zombie to normal
             if (gp.tileM.isZombiePath(col-1, row)){
@@ -310,6 +331,7 @@ public final class zombie extends entity {
         }
     }
 
+    //updates below tile and surroundings to its respective tile type
     public void updateDownDeathTile(int x, int y) {
         int col = x / gp.tileSize;
         int row = (y + speed) / gp.tileSize;
@@ -338,6 +360,7 @@ public final class zombie extends entity {
             gp.tileM.updateTile(col, row-1, 34);
         }
 
+        //updates for the rotating zombie
         if (type.equals("rotate")) {
             //set tile left of zombie to normal
             if (gp.tileM.isZombiePath(col+1, row)){

@@ -19,22 +19,26 @@ public final class button extends entity {
 
     public void update() {
         if (Player.zombieCanMove) {
+            //only player can change the state of this button
             if (type.equals("player")) {
+                //changes the button state from up to down
                 if (Player.x == x && Player.y == y && state == "up") {
                     state = "down";
                     System.out.println("Button pushed");
                 }
             }
-//            else if (type.equals("box")) {
-//
-//            }
-            //will continue the box type if we have time
+
+            //will continue the box type when we implement it
+            else if (type.equals("box")) {
+
+            }
             chgBtnState(state);
         }
 
 
     }
 
+    //apply the changes made from the update(); method
     public void chgBtnState (String state) {
         int col = x / gp.tileSize;
         int row = y / gp.tileSize;

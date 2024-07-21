@@ -23,16 +23,18 @@ public final class spike extends entity {
 
     public void update() {
         if (Player.zombieCanMove) {
-//            if (type.equals("cycle")){
-//                if (state.equals("up")){
-//                    state = "down";
-//                }
-//                else if (state.equals("down")){
-//                    state = "up";
-//                }
-//            }
             //in case we ever want cycling spikes
-            if (Button.state.equals("down") && !triggeredByButton) {
+            if (type.equals("cycle")){
+                if (state.equals("up")){
+                    state = "down";
+                }
+                else if (state.equals("down")){
+                    state = "up";
+                }
+            }
+
+            //spikes that are triggered by buttons
+            else if (Button.state.equals("down") && !triggeredByButton) {
                 if (state.equals("up")){
                     state = "down";
                 }
@@ -45,6 +47,7 @@ public final class spike extends entity {
         }
     }
 
+    //changes the state of the spike in that cycle
     public void chgSpikeState (String state) {
         int col = x / gp.tileSize;
         int row = y / gp.tileSize;

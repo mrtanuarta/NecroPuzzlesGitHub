@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gamePanel;
 
 import entity.player;
@@ -12,7 +8,7 @@ import entity.spike;
 
 public class Level3 extends Level {
     public Level3(GamePanel gp) {
-        super(gp, 3); // Pass level number to superclass
+        super(gp, 3);
     }
     @Override
     protected void initializeLevel() {
@@ -40,7 +36,8 @@ public class Level3 extends Level {
         spikes.add(new spike(gp, Player, "button", 256, 384, "up", buttons.get(0)));
         spikes.add(new spike(gp, Player, "button", 256, 320, "down", buttons.get(0)));
         spikes.add(new spike(gp, Player, "button", 256, 256, "down", buttons.get(0)));
-        Player.zombieCanMove = true;
 
+        //inserts the level tiles when you first load the level
+        Player.zombieCanMove = true;
     }
 }

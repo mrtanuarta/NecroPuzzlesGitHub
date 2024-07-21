@@ -82,7 +82,8 @@ public final class tileManager{
             e.printStackTrace();
         }
     }
-    
+
+    //used when instantiating the tile manager
     public void setCollisionForTiles(int[] indices) {
         for (int i : indices) {
             if (i >= 0 && i < tile.length) {
@@ -92,6 +93,7 @@ public final class tileManager{
         }
     }
 
+    //used when instantiating the tile manager
     public void setDeathForTiles(int[] indices) {
         for (int i : indices) {
             if (i >= 0 && i < tile.length) {
@@ -101,6 +103,7 @@ public final class tileManager{
         }
     }
 
+    //used when instantiating the tile manager
     public void setVictoryForTiles(int[] indices) {
         for (int i : indices) {
             if (i >= 0 && i < tile.length) {
@@ -110,6 +113,7 @@ public final class tileManager{
         }
     }
 
+    //used when instantiating the tile manager
     public void setZombiePathTiles(int[] indices) {
         for (int i : indices) {
             if (i >= 0 && i < tile.length) {
@@ -119,6 +123,7 @@ public final class tileManager{
         }
     }
 
+    //used when instantiating the tile manager
     public void setPlayerPathTiles(int[] indices) {
         for (int i : indices) {
         if (i >= 0 && i < tile.length) {

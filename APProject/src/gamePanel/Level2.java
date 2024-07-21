@@ -7,7 +7,7 @@ import entity.spike;
 
 public class Level2 extends Level {
     public Level2(GamePanel gp) {
-        super(gp, 2); // Pass level number to superclass
+        super(gp, 2);
     }
 
     @Override
@@ -24,7 +24,8 @@ public class Level2 extends Level {
 
         spikes.add(new spike(gp, Player, "button", 384, 384, "up", buttons.get(0)));
         spikes.add(new spike(gp, Player, "button", 384, 448, "up", buttons.get(0)));
-        Player.zombieCanMove = true;
 
+        //inserts the level tiles when you first load the level
+        Player.zombieCanMove = true;
     }
 }

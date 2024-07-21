@@ -20,6 +20,7 @@ public final class player extends entity {
     GamePanel gp;
     keyHandler keyH;
 
+    //player constructor
     public player(GamePanel gp, keyHandler keyH, int x, int y, String direction) {
         this.gp = gp;
         this.keyH = keyH;
@@ -30,6 +31,7 @@ public final class player extends entity {
         this.direction = direction;
     }
 
+    //gets the player sprite
     public void getPlayerImage() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerUp1.png"));
@@ -48,14 +50,18 @@ public final class player extends entity {
         }
     }
 
+    //update cycle for the player
     public void update() {
         long currentTime = System.currentTimeMillis();
+        //animation
         spriteAnim();
 
+        //the player can only move when the cooldown is out
         if (currentTime - lastMoveTime >= cooldown) {
             int newX = x, newY = y;
             moved = false;
 
+            //move to directions
             if (keyH.upPressed) {
                 newY -= speed;
                 direction = "up";
@@ -72,10 +78,13 @@ public final class player extends entity {
                 newX += speed;
                 direction = "right";
                 moved = true;
-            } else if (keyH.escapePressed) {
+            }
+            //pause when pressing escape
+            else if (keyH.escapePressed) {
                 gp.pauseGame();
             }
 
+            //check for collision with walls or other obstacle
             if (moved && canMove(newX, newY)) {
                 zombieCanMove = true;
                 x = newX;
@@ -84,10 +93,12 @@ public final class player extends entity {
                 moveUpdate();
             }
 
+            //resets keys pressed
             keyH.resetKeys();
         }
     }
 
+    //check for collision with walls or other obstacle
     private boolean canMove(int newX, int newY) {
         int col = newX / gp.tileSize;
         int row = newY / gp.tileSize;
@@ -99,20 +110,22 @@ public final class player extends entity {
         return !gp.tileM.isTileCollision(col, row);
     }
 
+    //check if the player is dead or have gone through the exit
     private boolean zombieInteracted = false; // New flag to track interaction
     public void checkTileUpdates(int x, int y) {
         if (!zombieInteracted && isDead(x, y)) {
-            System.out.println("bozo ded");
+            System.out.println("Player died");
             zombieInteracted = true; // Set flag to true after interaction occurs
             gp.showDeathScreen(gp.levelNumber); // Show the death screen
         }
         if (!zombieInteracted && isVictory(x, y)) {
-            System.out.println("yay W");
+            System.out.println("Player escaped");
             zombieInteracted = true; // Set flag to true after interaction occurs
             gp.showVictoryScreen(gp.levelNumber);
         }
     }
 
+    //checks for danger tile
     private boolean isDead(int newX, int newY) {
         int col = newX / gp.tileSize;
         int row = newY / gp.tileSize;
@@ -120,6 +133,7 @@ public final class player extends entity {
         return gp.tileM.isTileDeath(col, row);
     }
 
+    //checks for exit tile
     private boolean isVictory(int newX, int newY) {
         int col = newX / gp.tileSize;
         int row = newY / gp.tileSize;
@@ -127,11 +141,13 @@ public final class player extends entity {
         return gp.tileM.isTileVictory(col, row);
     }
 
+    //updates the amount of moves
     private void moveUpdate() {
         Moves++;
         System.out.println("Current Moves: " + Moves);
     }
 
+    //draw the sprite
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
         switch (direction) {
@@ -151,6 +167,7 @@ public final class player extends entity {
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
 
+    //sprite animation
     public void spriteAnim() {
         spriteCounter++;
         if (spriteCounter > 20) {

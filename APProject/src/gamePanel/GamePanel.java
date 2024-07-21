@@ -3,7 +3,6 @@ package gamePanel;
 import tileCode.tileManager;
 import java.awt.*;
 import javax.swing.JPanel;
-import java.util.logging.Logger;
 
 import menuScreens.MainApp;
 
@@ -19,7 +18,6 @@ public class GamePanel extends JPanel implements Runnable {
     keyHandler keyH = new keyHandler();
     private Thread gameThread;
     public Level currentLevel;
-    private final int FPS = 60;
     private MainApp mainApp;
     public int levelNumber;
     private boolean running;
@@ -64,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (mainApp != null) {
             mainApp.showPauseScreen(); // Show the pause screen
             this.stopGame(); // Stop the game loop
+            System.out.println("Game paused");
         }
     }
 
@@ -77,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void resumeGame() {
         startGameThread();
+        System.out.println("Game resumed");
     }
 
     public void stopGame() {

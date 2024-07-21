@@ -98,7 +98,8 @@ public class VictoryScreen extends JPanel {
         return logoBox;
     }
     public void loadNextLevel(){
-        mainApp.startGame(levelNum + 1);
+        mainApp.startGame(levelNum + 1); //makes sure that it goes to the next level
+        System.out.println("Load next level");
     }
     public void updateLevelNumber(int levelNum) {
         this.levelNum = levelNum;
