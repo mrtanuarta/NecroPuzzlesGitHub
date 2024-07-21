@@ -37,7 +37,7 @@ public class LevelSelection {
         levelsPanel.setBackground(Color.BLACK);
         levelsPanel.setLayout(new BoxLayout(levelsPanel, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             JLabel levelLabel = createLevelLabel(i + 1);
             levels.add(levelLabel);
             JLabel currentLevel = createCurrentLevelLabel();

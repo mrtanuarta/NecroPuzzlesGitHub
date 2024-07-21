@@ -25,7 +25,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-        this.requestFocus();
     }
 
     public keyHandler getKeyHandler() {
@@ -52,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
         this.tileM = new tileManager(this, levelNumber);
         System.out.println("Loaded level: " + levelNumber);
+        startGameThread();
     }
 
     public void startGameThread() {

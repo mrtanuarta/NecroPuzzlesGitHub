@@ -49,6 +49,21 @@ public class MenuSelection {
             optionBox.add(currentOption);
             optionBox.add(optionLabel);
             optionsPanel.add(optionBox);
+
+            // Add mouse listeners for hover effect
+            optionLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    currentOption.setForeground(Color.WHITE);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (options.indexOf(optionLabel) != getCurrentSelectedOptionIndex()) {
+                        currentOption.setForeground(Color.BLACK);
+                    }
+                }
+            });
         }
 
         // Add components to menu panel
@@ -114,6 +129,15 @@ public class MenuSelection {
             label.setForeground(Color.BLACK);
         }
         currentOptions.get(index).setForeground(Color.WHITE);
+    }
+
+    private int getCurrentSelectedOptionIndex() {
+        for (int i = 0; i < currentOptions.size(); i++) {
+            if (currentOptions.get(i).getForeground() == Color.WHITE) {
+                return i;
+            }
+        }
+        return -1; // No selection
     }
 
     public JPanel getMenuPanel() {

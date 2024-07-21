@@ -51,5 +51,6 @@ public class MainApp {
     public void startGame(int levelNumber) {
         gamePanel.loadLevel(levelNumber);
         cardLayout.show(cardPanel, "Game");
+        gamePanel.requestFocus();
     }
 }
