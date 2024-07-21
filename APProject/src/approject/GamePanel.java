@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.requestFocus();
 
-        loadLevel(1);
+        loadLevel(2);
     }
 
     public keyHandler getKeyHandler() {
@@ -42,6 +42,13 @@ public class GamePanel extends JPanel implements Runnable {
             case 2:
                 currentLevel = new Level2(this);
                 break;
+            case 3:
+                currentLevel = new Level3(this);
+                break;
+            case 4:
+                currentLevel = new Level4(this);
+                break;
+            
             default:
                 throw new IllegalArgumentException("Invalid level number");
         }

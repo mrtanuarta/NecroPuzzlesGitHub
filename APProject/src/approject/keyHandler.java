@@ -16,19 +16,15 @@ public class keyHandler implements KeyListener {
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_W) {
             upPressed = true;
-            System.out.println("W Pressed");
         }
         if (code == KeyEvent.VK_S) {
             downPressed = true;
-            System.out.println("S Pressed");
         }
         if (code == KeyEvent.VK_A) {
             leftPressed = true;
-            System.out.println("A Pressed");
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
-            System.out.println("D Pressed");
         }
     }
     //dont really mind this shit

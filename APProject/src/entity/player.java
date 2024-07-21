@@ -13,7 +13,6 @@ public final class player extends entity {
     private final int cooldown = 500;
     protected boolean moved = false;
     public static boolean zombieCanMove = false;
-    private boolean zombieInteracted = false; 
     GamePanel gp;
     keyHandler keyH;
 
@@ -31,14 +30,14 @@ public final class player extends entity {
 
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerUp1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerUp2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerLeft1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerLeft2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerRight1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerRight2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerDown1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/PlayerDown2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerUp1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerUp2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerLeft1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerLeft2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerRight1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerRight2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerDown1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/entitySprites/player/PlayerDown2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -96,16 +95,20 @@ public final class player extends entity {
         return !gp.tileM.isTileCollision(col, row);
     }
 
+    private boolean zombieInteracted = false; // New flag to track interaction
+
+    // This is the method where you check for interaction with the zombie
     public void checkTileUpdates(int x, int y) {
         if (!zombieInteracted && isDead(x, y)) {
             System.out.println("bozo ded");
-            zombieInteracted = true;
+            zombieInteracted = true; // Set flag to true after interaction occurs
         }
         if (!zombieInteracted && isVictory(x, y)) {
             System.out.println("yay W");
-            zombieInteracted = true;
+            zombieInteracted = true; // Set flag to true after interaction occurs
         }
     }
+
 
     private boolean isDead(int newX, int newY) {
         int col = newX / gp.tileSize;
