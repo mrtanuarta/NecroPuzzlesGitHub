@@ -13,6 +13,7 @@ public class MainApp {
     private LevelSelection levelSelection;
     private GamePanel gamePanel;
     private DeathScreen deathScreen;
+    private VictoryScreen victoryScreen;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainApp().createAndShowGUI());
@@ -61,6 +62,14 @@ public class MainApp {
         }
         cardPanel.add(deathScreen, "DeathScreen");
         cardLayout.show(cardPanel, "DeathScreen");
+    }
+
+    public void showVictoryScreen(int levelNum) {
+        if (victoryScreen == null) {
+            victoryScreen = new VictoryScreen(this, levelNum);
+        }
+        cardPanel.add(victoryScreen,"VictoryScreen");
+        cardLayout.show(cardPanel,"VictoryScreen");
     }
 
     public void restartGame() {

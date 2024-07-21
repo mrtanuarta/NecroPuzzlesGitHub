@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 
 public class VictoryScreen extends JFrame {
 
-    private static final String IMAGE_PATH = "/Images/Win.png";
+    private static final String IMAGE_PATH = "/menuResources/Win.png";
     private static final String FONT_FAMILY = "Arial";
     private static final double LOGO_WIDTH = 400;
     private static final double FONT_SIZE_LABEL = 24;
+    private MainApp mainApp;
 
-    public VictoryScreen() {
+    public VictoryScreen(MainApp mainApp, int levelNumber) {
+        this.mainApp = mainApp;
         setTitle("Victory Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -27,6 +29,12 @@ public class VictoryScreen extends JFrame {
         youWinLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, 48));
         youWinLabel.setForeground(Color.GREEN);
         youWinLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Panel to hold the "YOU WIN" label
+        JPanel youWinBox = new JPanel();
+        youWinBox.setBackground(Color.BLACK);
+        youWinBox.setLayout(new BorderLayout());
+        youWinBox.add(youWinLabel, BorderLayout.CENTER);
 
         // Create "Next Level" button
         JButton nextLevelButton = new JButton("Next Level");
@@ -63,12 +71,6 @@ public class VictoryScreen extends JFrame {
         buttonBox.setLayout(new GridLayout(2, 1, 20, 20));
         buttonBox.add(nextLevelButton);
         buttonBox.add(quitButton);
-
-        // Panel to hold the "YOU WIN" label
-        JPanel youWinBox = new JPanel();
-        youWinBox.setBackground(Color.BLACK);
-        youWinBox.setLayout(new BorderLayout());
-        youWinBox.add(youWinLabel, BorderLayout.CENTER);
 
         // Add components to the main frame
         add(logoBox, BorderLayout.NORTH);
@@ -110,7 +112,7 @@ public class VictoryScreen extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new VictoryScreen();
+            
             }
         });
     }

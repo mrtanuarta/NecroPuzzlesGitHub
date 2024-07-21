@@ -105,6 +105,7 @@ public final class player extends entity {
         if (!zombieInteracted && isVictory(x, y)) {
             System.out.println("yay W");
             zombieInteracted = true; // Set flag to true after interaction occurs
+            gp.showVictoryScreen(gp.getCurrentLevel().levelNumber);
         }
     }
 

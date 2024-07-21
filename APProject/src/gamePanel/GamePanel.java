@@ -110,6 +110,11 @@ public class GamePanel extends JPanel implements Runnable {
         mainApp.showDeathScreen(levelNum); // Transition to the death screen
     }
 
+    public void showVictoryScreen(int levelNum) {
+        gameThread = null;
+        mainApp.showVictoryScreen(levelNum);
+    }
+
     public Level getCurrentLevel(){
         return currentLevel;
     }
