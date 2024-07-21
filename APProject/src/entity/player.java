@@ -2,6 +2,7 @@ package entity;
 
 import gamePanel.GamePanel;
 import gamePanel.keyHandler;
+import gamePanel.Level;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -16,7 +17,6 @@ public final class player extends entity {
     GamePanel gp;
     keyHandler keyH;
 
-
     public player(GamePanel gp, keyHandler keyH, int x, int y, String direction) {
         this.gp = gp;
         this.keyH = keyH;
@@ -25,7 +25,6 @@ public final class player extends entity {
         this.y = y;
         speed = 64;
         this.direction = direction;
-
     }
 
     public void getPlayerImage() {
@@ -78,6 +77,7 @@ public final class player extends entity {
                 y = newY;
                 lastMoveTime = currentTime;
                 moveUpdate();
+                checkTileUpdates(newX, newY); // Check tile updates after moving
             }
 
             keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
@@ -96,12 +96,13 @@ public final class player extends entity {
     }
 
     private boolean zombieInteracted = false; // New flag to track interaction
-
-    // This is the method where you check for interaction with the zombie
+    public boolean death = false;
     public void checkTileUpdates(int x, int y) {
         if (!zombieInteracted && isDead(x, y)) {
             System.out.println("bozo ded");
             zombieInteracted = true; // Set flag to true after interaction occurs
+            death = true;
+            gp.showDeathScreen(); // Show the death screen
         }
         if (!zombieInteracted && isVictory(x, y)) {
             System.out.println("yay W");
@@ -109,11 +110,10 @@ public final class player extends entity {
         }
     }
 
-
     private boolean isDead(int newX, int newY) {
         int col = newX / gp.tileSize;
         int row = newY / gp.tileSize;
-
+         
         return gp.tileM.isTileDeath(col, row);
     }
 

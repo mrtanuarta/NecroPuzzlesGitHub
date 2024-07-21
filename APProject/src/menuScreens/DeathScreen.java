@@ -5,19 +5,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DeathScreen extends JFrame {
+public class DeathScreen extends JPanel {
 
     private static final String IMAGE_PATH = "/Images/Dead.png";
     private static final String FONT_FAMILY = "Arial";
     private static final double LOGO_WIDTH = 400;
     private static final double FONT_SIZE_LABEL = 24;
+    private MainApp mainApp;
 
-    public DeathScreen() {
-        setTitle("Death Screen");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+    public DeathScreen(MainApp mainApp) {
+        this.mainApp = mainApp;
         setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.BLACK);
+        setBackground(Color.BLACK);
 
         // Create the logo box
         JPanel logoBox = createLogoBox();
@@ -44,8 +43,7 @@ public class DeathScreen extends JFrame {
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Restart clicked!");
-                restartLevel(); // Call the method to restart the level
+                mainApp.restartGame(); // Call the method to restart the game
             }
         });
 
@@ -74,9 +72,6 @@ public class DeathScreen extends JFrame {
         add(logoBox, BorderLayout.NORTH);
         add(youLoseBox, BorderLayout.CENTER);
         add(buttonBox, BorderLayout.SOUTH);
-
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     private JPanel createLogoBox() {
@@ -98,22 +93,5 @@ public class DeathScreen extends JFrame {
         }
 
         return logoBox;
-    }
-
-    // Method to restart the level
-    private void restartLevel() {
-        // Here you can implement the logic to restart the level
-        // For example, you could dispose the current frame and create a new instance
-        dispose();
-        new DeathScreen();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DeathScreen();
-            }
-        });
     }
 }

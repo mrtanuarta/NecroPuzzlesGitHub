@@ -12,6 +12,7 @@ public class MainApp {
     private MenuSelection menuSelection;
     private LevelSelection levelSelection;
     private GamePanel gamePanel;
+    private DeathScreen deathScreen;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainApp().createAndShowGUI());
@@ -28,7 +29,7 @@ public class MainApp {
 
         menuSelection = new MenuSelection(this);
         levelSelection = new LevelSelection(this);
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(this); // Pass the main app instance to the game panel
 
         cardPanel.add(menuSelection.getMenuPanel(), "Menu");
         cardPanel.add(levelSelection.getLevelPanel(), "LevelSelection");
@@ -52,5 +53,18 @@ public class MainApp {
         gamePanel.loadLevel(levelNumber);
         cardLayout.show(cardPanel, "Game");
         gamePanel.requestFocus();
+    }
+
+    public void showDeathScreen() {
+        if (deathScreen == null) {
+            deathScreen = new DeathScreen(this); // Pass the main app instance to the death screen
+        }
+        cardPanel.add(deathScreen, "DeathScreen");
+        cardLayout.show(cardPanel, "DeathScreen");
+    }
+
+    public void restartGame() {
+        deathScreen = null; // Reset the death screen
+        showMenu();
     }
 }

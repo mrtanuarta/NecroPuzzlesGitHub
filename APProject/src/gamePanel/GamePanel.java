@@ -4,6 +4,8 @@ import tileCode.tileManager;
 import java.awt.*;
 import javax.swing.JPanel;
 import java.util.logging.Logger;
+import entity.player;
+import menuScreens.MainApp;
 
 public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16;
@@ -18,15 +20,16 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     private Level currentLevel;
     private final int FPS = 60;
+    private MainApp mainApp;
 
-    public GamePanel() {
+    public GamePanel(MainApp mainApp) {
+        this.mainApp = mainApp;
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
     }
-
     public keyHandler getKeyHandler() {
         return keyH;
     }
@@ -89,6 +92,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         if (currentLevel != null) {
             currentLevel.update();
+            if (currentLevel.isPlayerDead()) { // Check if the player is dead
+                showDeathScreen();
+            }
         }
     }
 
@@ -100,5 +106,10 @@ public class GamePanel extends JPanel implements Runnable {
             currentLevel.draw(g2);
         }
         g2.dispose();
+    }
+
+    public void showDeathScreen() {
+        gameThread = null; // Stop the game thread
+        mainApp.showDeathScreen(); // Transition to the death screen
     }
 }
