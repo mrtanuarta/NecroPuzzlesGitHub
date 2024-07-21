@@ -5,45 +5,41 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DeathScreen extends JPanel {
+public class VictoryScreen extends JFrame {
 
-    private static final String IMAGE_PATH = "/Images/Dead.png";
+    private static final String IMAGE_PATH = "/Images/Win.png";
     private static final String FONT_FAMILY = "Arial";
     private static final double LOGO_WIDTH = 400;
     private static final double FONT_SIZE_LABEL = 24;
-    private MainApp mainApp;
 
-    public DeathScreen(MainApp mainApp, int levelNum) {
-        this.mainApp = mainApp;
+    public VictoryScreen() {
+        setTitle("Victory Screen");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
         setLayout(new BorderLayout());
-        setBackground(Color.BLACK);
+        getContentPane().setBackground(Color.BLACK);
 
         // Create the logo box
         JPanel logoBox = createLogoBox();
 
-        // Create "YOU LOSE" label
-        JLabel youLoseLabel = new JLabel("YOU LOSE");
-        youLoseLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, 48));
-        youLoseLabel.setForeground(Color.RED);
-        youLoseLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        // Create "YOU WIN" label
+        JLabel youWinLabel = new JLabel("YOU WIN");
+        youWinLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, 48));
+        youWinLabel.setForeground(Color.GREEN);
+        youWinLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Panel to hold the "YOU LOSE" label
-        JPanel youLoseBox = new JPanel();
-        youLoseBox.setBackground(Color.BLACK);
-        youLoseBox.setLayout(new BorderLayout());
-        youLoseBox.add(youLoseLabel, BorderLayout.CENTER);
-
-        // Create "Restart" button
-        JButton restartButton = new JButton("Restart");
-        restartButton.setFont(new Font(FONT_FAMILY, Font.PLAIN, 24));
-        restartButton.setBackground(Color.WHITE);
-        restartButton.setForeground(Color.BLACK);
-        restartButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        restartButton.setPreferredSize(new Dimension(200, 50));
-        restartButton.addActionListener(new ActionListener() {
+        // Create "Next Level" button
+        JButton nextLevelButton = new JButton("Next Level");
+        nextLevelButton.setFont(new Font(FONT_FAMILY, Font.PLAIN, 24));
+        nextLevelButton.setBackground(Color.WHITE);
+        nextLevelButton.setForeground(Color.BLACK);
+        nextLevelButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        nextLevelButton.setPreferredSize(new Dimension(200, 50));
+        nextLevelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainApp.startGame(levelNum); // Call the method to restart the game
+                System.out.println("Next Level clicked!");
+                loadNextLevel();
             }
         });
 
@@ -65,13 +61,22 @@ public class DeathScreen extends JPanel {
         JPanel buttonBox = new JPanel();
         buttonBox.setBackground(Color.BLACK);
         buttonBox.setLayout(new GridLayout(2, 1, 20, 20));
-        buttonBox.add(restartButton);
+        buttonBox.add(nextLevelButton);
         buttonBox.add(quitButton);
+
+        // Panel to hold the "YOU WIN" label
+        JPanel youWinBox = new JPanel();
+        youWinBox.setBackground(Color.BLACK);
+        youWinBox.setLayout(new BorderLayout());
+        youWinBox.add(youWinLabel, BorderLayout.CENTER);
 
         // Add components to the main frame
         add(logoBox, BorderLayout.NORTH);
-        add(youLoseBox, BorderLayout.CENTER);
+        add(youWinBox, BorderLayout.CENTER);
         add(buttonBox, BorderLayout.SOUTH);
+
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     private JPanel createLogoBox() {
@@ -79,7 +84,7 @@ public class DeathScreen extends JPanel {
         logoBox.setBackground(Color.BLACK);
         logoBox.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 
-        ImageIcon logoImage = new ImageIcon(getClass().getResource("/menuResources/Dead.png"));
+        ImageIcon logoImage = new ImageIcon(getClass().getResource(IMAGE_PATH));
         if (logoImage.getImageLoadStatus() == MediaTracker.COMPLETE) {
             Image image = logoImage.getImage().getScaledInstance((int) LOGO_WIDTH, -1, Image.SCALE_SMOOTH);
             JLabel logoLabel = new JLabel(new ImageIcon(image));
@@ -93,5 +98,20 @@ public class DeathScreen extends JPanel {
         }
 
         return logoBox;
+    }
+
+    // Method to load the next level
+    private void loadNextLevel() {
+        System.out.println("Loading the next level...");
+        // Implement the next level loading logic here
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new VictoryScreen();
+            }
+        });
     }
 }

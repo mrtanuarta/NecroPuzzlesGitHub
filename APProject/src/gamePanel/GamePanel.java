@@ -1,9 +1,11 @@
-package approject;
+package gamePanel;
 
 import tileCode.tileManager;
 import java.awt.*;
 import javax.swing.JPanel;
 import java.util.logging.Logger;
+
+import menuScreens.MainApp;
 
 public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16;
@@ -16,20 +18,18 @@ public class GamePanel extends JPanel implements Runnable {
     public tileManager tileM;
     keyHandler keyH = new keyHandler();
     Thread gameThread;
-    private Level currentLevel;
+    public Level currentLevel;
     private final int FPS = 60;
+    private MainApp mainApp;
 
-    public GamePanel() {
+    public GamePanel(MainApp mainApp) {
+        this.mainApp = mainApp;
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-        this.requestFocus();
-
-        loadLevel(2);
     }
-
     public keyHandler getKeyHandler() {
         return keyH;
     }
@@ -54,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
         this.tileM = new tileManager(this, levelNumber);
         System.out.println("Loaded level: " + levelNumber);
+        startGameThread();
     }
 
     public void startGameThread() {
@@ -102,5 +103,14 @@ public class GamePanel extends JPanel implements Runnable {
             currentLevel.draw(g2);
         }
         g2.dispose();
+    }
+
+    public void showDeathScreen(int levelNum) {
+        gameThread = null; // Stop the game thread
+        mainApp.showDeathScreen(levelNum); // Transition to the death screen
+    }
+
+    public Level getCurrentLevel(){
+        return currentLevel;
     }
 }
