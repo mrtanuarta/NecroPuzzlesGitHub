@@ -20,7 +20,8 @@ public class MainApp {
     private void createAndShowGUI() {
         frame = new JFrame("Game Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(1024, 768);
+        frame.setResizable(false); // Make the window non-resizable
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);

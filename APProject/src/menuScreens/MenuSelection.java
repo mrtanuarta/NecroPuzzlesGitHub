@@ -26,8 +26,9 @@ public class MenuSelection {
         // Logo Panel
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.BLACK);
-        logoPanel.setPreferredSize(new Dimension(800, 200));
-        JLabel logoLabel = new JLabel(new ImageIcon("path/to/your/logo.png")); // Replace with your image path
+        logoPanel.setPreferredSize(new Dimension(800, 350));
+        logoPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 0, 0)); // Add top margin
+        JLabel logoLabel = createLogoLabel("/menuResources/NecroPuzzles.png"); // Replace with your image path
         logoPanel.add(logoLabel);
 
         // Options Panel
@@ -58,6 +59,18 @@ public class MenuSelection {
         selectCurrentOption(0);
     }
 
+    private JLabel createLogoLabel(String imagePath) {
+        ImageIcon logoIcon = new ImageIcon(getClass().getResource(imagePath));
+        JLabel logoLabel = new JLabel(logoIcon);
+        if (logoIcon.getImageLoadStatus() != MediaTracker.COMPLETE) {
+            System.err.println("Image file not found: " + imagePath);
+            logoLabel = new JLabel("Logo not found");
+            logoLabel.setForeground(Color.RED);
+            logoLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        }
+        return logoLabel;
+    }
+
     private JLabel createOptionLabel(String option) {
         JLabel optionLabel = new JLabel(option.toUpperCase());
         optionLabel.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -72,7 +85,7 @@ public class MenuSelection {
     }
 
     private JLabel createCurrentOptionLabel() {
-        JLabel currentOption = new JLabel(">");
+        JLabel currentOption = new JLabel("> ");
         currentOption.setFont(new Font("Arial", Font.BOLD, 30));
         currentOption.setForeground(Color.BLACK);
         return currentOption;
