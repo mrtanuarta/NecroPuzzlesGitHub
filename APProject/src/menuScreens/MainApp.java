@@ -1,6 +1,7 @@
 package menuScreens;
 
 import gamePanel.GamePanel;
+import gameSounds.SoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,7 @@ public class MainApp {
     private DeathScreen deathScreen;
     private VictoryScreen victoryScreen;
     private PauseScreen pauseScreen;
+    private SoundPlayer backgroundMusic;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainApp().createAndShowGUI());
@@ -41,6 +43,10 @@ public class MainApp {
         frame.setVisible(true);
 
         showMenu();
+
+        this.backgroundMusic = new SoundPlayer("/gameSounds/audioFiles/music.wav");
+        backgroundMusic.setVolume(0.74f);
+        backgroundMusic.loop();
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

@@ -1,11 +1,8 @@
 package entity;
 
-import com.sun.tools.javac.Main;
 import gamePanel.GamePanel;
 import gamePanel.keyHandler;
-import gamePanel.Level;
-import menuScreens.MainApp;
-
+import gameSounds.SoundPlayer;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,6 +16,10 @@ public final class player extends entity {
     public static boolean zombieCanMove = false;
     GamePanel gp;
     keyHandler keyH;
+    private final SoundPlayer footstepSound;
+    private final SoundPlayer win;
+    private final SoundPlayer lose;
+
 
     //player constructor
     public player(GamePanel gp, keyHandler keyH, int x, int y, String direction) {
@@ -29,6 +30,9 @@ public final class player extends entity {
         this.y = y;
         speed = 64;
         this.direction = direction;
+        this.footstepSound = new SoundPlayer("/gameSounds/audioFiles/footSteps.wav");
+        this.win = new SoundPlayer("/gameSounds/audioFiles/win.wav");
+        this.lose = new SoundPlayer("/gameSounds/audioFiles/zombienoise.wav");
     }
 
     //gets the player sprite
@@ -91,6 +95,9 @@ public final class player extends entity {
                 y = newY;
                 lastMoveTime = currentTime;
                 moveUpdate();
+
+                footstepSound.stop();
+                footstepSound.play();
             }
 
             //resets keys pressed
@@ -114,11 +121,17 @@ public final class player extends entity {
     private boolean zombieInteracted = false; // New flag to track interaction
     public void checkTileUpdates(int x, int y) {
         if (!zombieInteracted && isDead(x, y)) {
+            lose.stop();
+            lose.play();
+
             System.out.println("Player died");
             zombieInteracted = true; // Set flag to true after interaction occurs
             gp.showDeathScreen(gp.levelNumber); // Show the death screen
         }
         if (!zombieInteracted && isVictory(x, y)) {
+            win.stop();
+            win.play();
+
             System.out.println("Player escaped");
             zombieInteracted = true; // Set flag to true after interaction occurs
             gp.showVictoryScreen(gp.levelNumber);
