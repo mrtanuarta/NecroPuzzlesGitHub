@@ -1,11 +1,13 @@
-
 package entity;
+
 import gamePanel.GamePanel;
+import gameSounds.SoundPlayer;
 
 public final class button extends entity {
     GamePanel gp;
     String type, state;
     private final player Player;
+    private final SoundPlayer buttonSound;
 
     // Just a constructor to connect the main game panel
     public button(GamePanel gp, player Player, String type, int x, int y, String state) {
@@ -15,6 +17,7 @@ public final class button extends entity {
         this.x = x;
         this.y = y;
         this.state = state;
+        this.buttonSound = new SoundPlayer("/gameSounds/audioFiles/button_press.wav");
     }
 
     public void update() {
@@ -25,6 +28,9 @@ public final class button extends entity {
                 if (Player.x == x && Player.y == y && state == "up") {
                     state = "down";
                     System.out.println("Button pushed");
+
+                    buttonSound.stop();
+                    buttonSound.play();
                 }
             }
 
