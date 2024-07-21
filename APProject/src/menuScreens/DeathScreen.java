@@ -11,10 +11,12 @@ public class DeathScreen extends JPanel {
     private static final String FONT_FAMILY = "Arial";
     private static final double LOGO_WIDTH = 400;
     private static final double FONT_SIZE_LABEL = 24;
-    private MainApp mainApp;
+    MainApp mainApp;
+    int levelNum;
 
     public DeathScreen(MainApp mainApp, int levelNum) {
         this.mainApp = mainApp;
+        this.levelNum = levelNum;
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
@@ -43,7 +45,7 @@ public class DeathScreen extends JPanel {
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainApp.startGame(levelNum); // Call the method to restart the game
+                restartLevel();
             }
         });
 
@@ -93,5 +95,13 @@ public class DeathScreen extends JPanel {
         }
 
         return logoBox;
+    }
+
+    public void restartLevel(){
+        mainApp.startGame(levelNum); // Call the method to restart the game
+    }
+
+    public void updateLevelNumber(int levelNum) {
+        this.levelNum = levelNum;
     }
 }

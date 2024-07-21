@@ -60,6 +60,9 @@ public class MainApp {
         if (deathScreen == null) {
             deathScreen = new DeathScreen(this, levelNum); // Pass the main app instance to the death screen
         }
+        else {
+            deathScreen.updateLevelNumber(levelNum); // Ensure level number is updated
+        }
         cardPanel.add(deathScreen, "DeathScreen");
         cardLayout.show(cardPanel, "DeathScreen");
     }
@@ -68,12 +71,10 @@ public class MainApp {
         if (victoryScreen == null) {
             victoryScreen = new VictoryScreen(this, levelNum);
         }
+        else {
+            victoryScreen.updateLevelNumber(levelNum); // Ensure level number is updated
+        }
         cardPanel.add(victoryScreen,"VictoryScreen");
         cardLayout.show(cardPanel,"VictoryScreen");
-    }
-
-    public void restartGame() {
-        deathScreen = null; // Reset the death screen
-        showMenu();
     }
 }

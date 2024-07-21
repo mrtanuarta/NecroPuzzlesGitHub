@@ -14,14 +14,13 @@ public abstract class Level {
     protected List<zombie> zombies;
     protected List<button> buttons;
     protected List<spike> spikes;
-    public int levelNumber;
 
     public Level(GamePanel gp, int levelNumber) {
         this.gp = gp;
         this.zombies = new ArrayList<>();
         this.buttons = new ArrayList<>();
         this.spikes = new ArrayList<>();
-        this.levelNumber = levelNumber;
+        gp.levelNumber = levelNumber;
         initializeLevel();
     }
 

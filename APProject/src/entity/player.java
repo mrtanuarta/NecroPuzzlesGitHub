@@ -99,12 +99,12 @@ public final class player extends entity {
         if (!zombieInteracted && isDead(x, y)) {
             System.out.println("bozo ded");
             zombieInteracted = true; // Set flag to true after interaction occurs
-            gp.showDeathScreen(gp.getCurrentLevel().levelNumber); // Show the death screen
+            gp.showDeathScreen(gp.levelNumber); // Show the death screen
         }
         if (!zombieInteracted && isVictory(x, y)) {
             System.out.println("yay W");
             zombieInteracted = true; // Set flag to true after interaction occurs
-            gp.showVictoryScreen(gp.getCurrentLevel().levelNumber);
+            gp.showVictoryScreen(gp.levelNumber);
         }
     }
 

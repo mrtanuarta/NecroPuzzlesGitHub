@@ -11,10 +11,12 @@ public class VictoryScreen extends JPanel {
     private static final String FONT_FAMILY = "Arial";
     private static final double LOGO_WIDTH = 400;
     private static final double FONT_SIZE_LABEL = 24;
-    private MainApp mainApp;
+    MainApp mainApp;
+    int levelNum;
 
     public VictoryScreen(MainApp mainApp, int levelNum) {
         this.mainApp = mainApp;
+        this.levelNum = levelNum;
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
@@ -44,7 +46,7 @@ public class VictoryScreen extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Next Level clicked!");
-                loadNextLevel(levelNum);
+                loadNextLevel();
             }
         });
 
@@ -95,24 +97,10 @@ public class VictoryScreen extends JPanel {
 
         return logoBox;
     }
-
-    // Method to load the next level
-    private void loadNextLevel(int levelNum) {
-        System.out.println("Loading the next level...");
+    public void loadNextLevel(){
         mainApp.startGame(levelNum + 1);
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new JFrame("Victory Screen");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(800, 600);
-                frame.add(new VictoryScreen(new MainApp(), 1));
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
+    public void updateLevelNumber(int levelNum) {
+        this.levelNum = levelNum;
     }
 }

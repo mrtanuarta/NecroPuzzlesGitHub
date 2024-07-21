@@ -21,6 +21,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Level currentLevel;
     private final int FPS = 60;
     private MainApp mainApp;
+    public int levelNumber;
+
 
     public GamePanel(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -58,6 +60,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void startGameThread() {
+        if (gameThread != null) {
+            gameThread.interrupt(); // Stop any existing thread
+        }
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -113,9 +118,5 @@ public class GamePanel extends JPanel implements Runnable {
     public void showVictoryScreen(int levelNum) {
         gameThread = null;
         mainApp.showVictoryScreen(levelNum);
-    }
-
-    public Level getCurrentLevel(){
-        return currentLevel;
     }
 }
