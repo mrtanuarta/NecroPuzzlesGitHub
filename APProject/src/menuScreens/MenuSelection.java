@@ -7,11 +7,14 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MenuSelection {
     private JPanel menuPanel;
     private MainApp mainApp;
-    private List<JLabel> currentOptions = new ArrayList<>();
     private List<JLabel> options = new ArrayList<>();
+
+    private static final Font NORMAL_FONT = new Font("Arial", Font.PLAIN, 30);
+    private static final Font ARROW_FONT = new Font("Arial", Font.PLAIN, 60);
 
     public MenuSelection(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -40,13 +43,10 @@ public class MenuSelection {
         for (String option : menuOptions) {
             JLabel optionLabel = createOptionLabel(option);
             options.add(optionLabel);
-            JLabel currentOption = createCurrentOptionLabel();
-            currentOptions.add(currentOption);
 
             JPanel optionBox = new JPanel();
             optionBox.setBackground(Color.BLACK);
             optionBox.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-            optionBox.add(currentOption);
             optionBox.add(optionLabel);
             optionsPanel.add(optionBox);
 
@@ -54,14 +54,19 @@ public class MenuSelection {
             optionLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    currentOption.setForeground(Color.WHITE);
+                    optionLabel.setFont(ARROW_FONT);
+                    optionLabel.setText("> " + optionLabel.getText());
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if (options.indexOf(optionLabel) != getCurrentSelectedOptionIndex()) {
-                        currentOption.setForeground(Color.BLACK);
-                    }
+                    optionLabel.setFont(NORMAL_FONT);
+                    optionLabel.setText(optionLabel.getText().substring(2));
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    handleOptionClick(optionLabel);
                 }
             });
         }
@@ -69,9 +74,6 @@ public class MenuSelection {
         // Add components to menu panel
         menuPanel.add(logoPanel, BorderLayout.NORTH);
         menuPanel.add(optionsPanel, BorderLayout.CENTER);
-
-        // Select the first option
-        selectCurrentOption(0);
     }
 
     private JLabel createLogoLabel(String imagePath) {
@@ -88,56 +90,26 @@ public class MenuSelection {
 
     private JLabel createOptionLabel(String option) {
         JLabel optionLabel = new JLabel(option.toUpperCase());
-        optionLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        optionLabel.setFont(NORMAL_FONT); // Normal font size
         optionLabel.setForeground(Color.WHITE);
-        optionLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                handleOptionClick(optionLabel);
-            }
-        });
         return optionLabel;
     }
 
-    private JLabel createCurrentOptionLabel() {
-        JLabel currentOption = new JLabel("> ");
-        currentOption.setFont(new Font("Arial", Font.BOLD, 30));
-        currentOption.setForeground(Color.BLACK);
-        return currentOption;
-    }
-
     private void handleOptionClick(JLabel source) {
-        int index = options.indexOf(source);
-        selectCurrentOption(index);
         System.out.println(source.getText() + " clicked");
 
         switch (source.getText()) {
-            case "NEW GAME":
+            case "> NEW GAME":
                 mainApp.startGame(1);
                 break;
-            case "LEVEL SELECTION":
+            case "> LEVEL SELECTION":
                 mainApp.showLevelSelection();
                 break;
-            case "QUIT":
+            case "> QUIT":
                 System.exit(0);
                 break;
+            // Add cases for other menu options as needed
         }
-    }
-
-    private void selectCurrentOption(int index) {
-        for (JLabel label : currentOptions) {
-            label.setForeground(Color.BLACK);
-        }
-        currentOptions.get(index).setForeground(Color.WHITE);
-    }
-
-    private int getCurrentSelectedOptionIndex() {
-        for (int i = 0; i < currentOptions.size(); i++) {
-            if (currentOptions.get(i).getForeground() == Color.WHITE) {
-                return i;
-            }
-        }
-        return -1; // No selection
     }
 
     public JPanel getMenuPanel() {
