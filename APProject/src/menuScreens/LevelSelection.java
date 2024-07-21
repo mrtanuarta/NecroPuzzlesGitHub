@@ -13,6 +13,10 @@ public class LevelSelection {
     private List<JLabel> currentLevels = new ArrayList<>();
     private List<JLabel> levels = new ArrayList<>();
 
+    private static final Font NORMAL_FONT = new Font("Arial", Font.PLAIN, 30);
+    private static final Font HIGHLIGHT_FONT = new Font("Arial", Font.BOLD, 40);
+    private static final Font ARROW_FONT = new Font("Arial", Font.PLAIN, 60);
+
     public LevelSelection(MainApp mainApp) {
         this.mainApp = mainApp;
         initializeLevels();
@@ -27,9 +31,15 @@ public class LevelSelection {
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(Color.BLACK);
         titlePanel.setPreferredSize(new Dimension(800, 100));
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
+
+        Component topStrut = Box.createVerticalStrut(30); // Create vertical strut to add space
+        titlePanel.add(topStrut);
+
         JLabel titleLabel = new JLabel("GAME LEVELS");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
         titleLabel.setForeground(Color.WHITE);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label horizontally
         titlePanel.add(titleLabel);
 
         // Levels Panel
@@ -46,6 +56,7 @@ public class LevelSelection {
             JPanel levelBox = new JPanel();
             levelBox.setBackground(Color.BLACK);
             levelBox.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+            levelBox.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Add margin on top and bottom
             levelBox.add(currentLevel);
             levelBox.add(levelLabel);
             levelsPanel.add(levelBox);
@@ -53,12 +64,22 @@ public class LevelSelection {
 
         // Back Label
         JLabel backLabel = new JLabel("BACK");
-        backLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        backLabel.setFont(NORMAL_FONT);
         backLabel.setForeground(Color.WHITE);
         backLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleBackClick();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                backLabel.setFont(HIGHLIGHT_FONT);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                backLabel.setFont(NORMAL_FONT);
             }
         });
 
@@ -80,20 +101,32 @@ public class LevelSelection {
 
     private JLabel createLevelLabel(int levelNumber) {
         JLabel levelLabel = new JLabel("LEVEL " + levelNumber);
-        levelLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        levelLabel.setFont(NORMAL_FONT);
         levelLabel.setForeground(Color.WHITE);
         levelLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleLevelClick(levelLabel);
             }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                levelLabel.setFont(ARROW_FONT);
+                levelLabel.setText("> " + levelLabel.getText());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                levelLabel.setFont(NORMAL_FONT);
+                levelLabel.setText(levelLabel.getText().substring(2));
+            }
         });
         return levelLabel;
     }
 
     private JLabel createCurrentLevelLabel() {
-        JLabel currentLevel = new JLabel(">");
-        currentLevel.setFont(new Font("Arial", Font.BOLD, 30));
+        JLabel currentLevel = new JLabel("");
+        currentLevel.setFont(ARROW_FONT);
         currentLevel.setForeground(Color.BLACK);
         return currentLevel;
     }

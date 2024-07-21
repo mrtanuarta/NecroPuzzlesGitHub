@@ -98,10 +98,56 @@ public class VictoryScreen extends JPanel {
         return logoBox;
     }
     public void loadNextLevel(){
-        mainApp.startGame(levelNum + 1); //makes sure that it goes to the next level
-        System.out.println("Load next level");
+        try {
+            mainApp.startGame(levelNum + 1); //makes sure that it goes to the next level
+            System.out.println("Load next level");
+        } catch (IllegalArgumentException e){
+            System.out.println("Invalid level number: " + (levelNum + 1));
+            displayEndMessage();
+        }
     }
     public void updateLevelNumber(int levelNum) {
         this.levelNum = levelNum;
+    }
+
+    private void displayEndMessage() {
+        // Remove current components
+        removeAll();
+
+        // Create "Thank you for playing" label
+        JLabel endMessageLabel = new JLabel("Thank you for playing!");
+        endMessageLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, 48));
+        endMessageLabel.setForeground(Color.GREEN);
+        endMessageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Add label to the panel
+        add(endMessageLabel, BorderLayout.CENTER);
+
+        // Create "Main Menu" button
+        JButton mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.setFont(new Font(FONT_FAMILY, Font.PLAIN, 24));
+        mainMenuButton.setBackground(Color.WHITE);
+        mainMenuButton.setForeground(Color.BLACK);
+        mainMenuButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        mainMenuButton.setPreferredSize(new Dimension(200, 50));
+        mainMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainApp.showMenu();
+            }
+        });
+
+        // Panel to hold the button
+        JPanel buttonBox = new JPanel();
+        buttonBox.setBackground(Color.BLACK);
+        buttonBox.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        buttonBox.add(mainMenuButton);
+
+        // Add button panel to the main panel
+        add(buttonBox, BorderLayout.SOUTH);
+
+        // Refresh the panel to display the message
+        revalidate();
+        repaint();
     }
 }
