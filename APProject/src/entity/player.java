@@ -77,7 +77,6 @@ public final class player extends entity {
                 y = newY;
                 lastMoveTime = currentTime;
                 moveUpdate();
-                checkTileUpdates(newX, newY); // Check tile updates after moving
             }
 
             keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
