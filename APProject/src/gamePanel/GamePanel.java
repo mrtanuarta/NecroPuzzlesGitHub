@@ -4,7 +4,7 @@ import tileCode.tileManager;
 import java.awt.*;
 import javax.swing.JPanel;
 import java.util.logging.Logger;
-import entity.player;
+
 import menuScreens.MainApp;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     public tileManager tileM;
     keyHandler keyH = new keyHandler();
     Thread gameThread;
-    private Level currentLevel;
+    public Level currentLevel;
     private final int FPS = 60;
     private MainApp mainApp;
 
@@ -92,9 +92,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         if (currentLevel != null) {
             currentLevel.update();
-            if (currentLevel.isPlayerDead()) { // Check if the player is dead
-                showDeathScreen();
-            }
         }
     }
 
@@ -108,8 +105,12 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    public void showDeathScreen() {
+    public void showDeathScreen(int levelNum) {
         gameThread = null; // Stop the game thread
-        mainApp.showDeathScreen(); // Transition to the death screen
+        mainApp.showDeathScreen(levelNum); // Transition to the death screen
+    }
+
+    public Level getCurrentLevel(){
+        return currentLevel;
     }
 }

@@ -96,13 +96,11 @@ public final class player extends entity {
     }
 
     private boolean zombieInteracted = false; // New flag to track interaction
-    public boolean death = false;
     public void checkTileUpdates(int x, int y) {
         if (!zombieInteracted && isDead(x, y)) {
             System.out.println("bozo ded");
             zombieInteracted = true; // Set flag to true after interaction occurs
-            death = true;
-            gp.showDeathScreen(); // Show the death screen
+            gp.showDeathScreen(gp.getCurrentLevel().levelNumber); // Show the death screen
         }
         if (!zombieInteracted && isVictory(x, y)) {
             System.out.println("yay W");

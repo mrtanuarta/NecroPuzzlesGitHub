@@ -13,7 +13,7 @@ public class DeathScreen extends JPanel {
     private static final double FONT_SIZE_LABEL = 24;
     private MainApp mainApp;
 
-    public DeathScreen(MainApp mainApp) {
+    public DeathScreen(MainApp mainApp, int levelNum) {
         this.mainApp = mainApp;
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
@@ -43,7 +43,7 @@ public class DeathScreen extends JPanel {
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainApp.restartGame(); // Call the method to restart the game
+                mainApp.startGame(levelNum); // Call the method to restart the game
             }
         });
 
@@ -79,7 +79,7 @@ public class DeathScreen extends JPanel {
         logoBox.setBackground(Color.BLACK);
         logoBox.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 
-        ImageIcon logoImage = new ImageIcon(getClass().getResource(IMAGE_PATH));
+        ImageIcon logoImage = new ImageIcon(getClass().getResource("/menuResources/Dead.png"));
         if (logoImage.getImageLoadStatus() == MediaTracker.COMPLETE) {
             Image image = logoImage.getImage().getScaledInstance((int) LOGO_WIDTH, -1, Image.SCALE_SMOOTH);
             JLabel logoLabel = new JLabel(new ImageIcon(image));

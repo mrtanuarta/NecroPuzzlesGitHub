@@ -55,9 +55,9 @@ public class MainApp {
         gamePanel.requestFocus();
     }
 
-    public void showDeathScreen() {
+    public void showDeathScreen(int levelNum) {
         if (deathScreen == null) {
-            deathScreen = new DeathScreen(this); // Pass the main app instance to the death screen
+            deathScreen = new DeathScreen(this, levelNum); // Pass the main app instance to the death screen
         }
         cardPanel.add(deathScreen, "DeathScreen");
         cardLayout.show(cardPanel, "DeathScreen");
