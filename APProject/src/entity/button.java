@@ -1,6 +1,6 @@
 
 package entity;
-import approject.GamePanel;
+import gamePanel.GamePanel;
 
 public final class button extends entity {
     GamePanel gp;

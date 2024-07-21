@@ -1,9 +1,7 @@
-package approject;
+package gamePanel;
 
 import entity.player;
 import entity.zombie;
-import entity.button;
-import entity.spike;
 
 
 public class Level1 extends Level {

@@ -1,4 +1,4 @@
-package approject;
+package gamePanel;
 
 import tileCode.tileManager;
 import java.awt.*;

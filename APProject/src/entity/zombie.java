@@ -1,6 +1,6 @@
 
 package entity;
-import approject.GamePanel;
+import gamePanel.GamePanel;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

@@ -4,7 +4,7 @@
  */
 package tileCode;
 
-import approject.GamePanel;
+import gamePanel.GamePanel;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,5 +1,5 @@
 package entity;
-import approject.GamePanel;
+import gamePanel.GamePanel;
 
 public final class spike extends entity {
     GamePanel gp;

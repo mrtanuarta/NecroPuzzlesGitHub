@@ -1,6 +1,6 @@
 package menuScreens;
 
-import approject.GamePanel;
+import gamePanel.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;

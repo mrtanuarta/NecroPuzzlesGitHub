@@ -1,4 +1,4 @@
-package approject;
+package gamePanel;
 
 import entity.player;
 import entity.zombie;
