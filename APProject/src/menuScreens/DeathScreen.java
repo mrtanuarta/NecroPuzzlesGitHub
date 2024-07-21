@@ -1,113 +1,119 @@
-//import java.io.InputStream;
-//import javafx.application.Application;
-//import javafx.geometry.Insets;
-//import javafx.geometry.Pos;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.Label;
-//import javafx.scene.image.Image;
-//import javafx.scene.image.ImageView;
-//import javafx.scene.layout.BorderPane;
-//import javafx.scene.layout.VBox;
-//import javafx.scene.paint.Color;
-//import javafx.scene.text.Font;
-//import javafx.scene.text.FontWeight;
-//import javafx.stage.Stage;
-//
-//public class DeathScreen extends Application {
-//
-//    private static final String IMAGE_PATH = "/Images/Dead.png";
-//    private static final String FONT_FAMILY = "Arial";
-//    private static final double LOGO_WIDTH = 400;
-//    private static final double FONT_SIZE_LABEL = 24;
-//
-//    @Override
-//    public void start(Stage primaryStage) {
-//        primaryStage.setTitle("Death Screen");
-//
-//        // Create the logo box
-//        VBox logoBox = createLogoBox();
-//
-//        // Create "YOU LOSE" label
-//        Label youLoseLabel = new Label("YOU LOSE");
-//        youLoseLabel.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, 48));
-//        youLoseLabel.setTextFill(Color.RED);
-//        youLoseLabel.setAlignment(Pos.CENTER);
-//
-//        // VBox to hold the "YOU LOSE" label
-//        VBox youLoseBox = new VBox(youLoseLabel);
-//        youLoseBox.setAlignment(Pos.CENTER);
-//        youLoseBox.setPadding(new Insets(-150, 0, 20, 0));
-//
-//        // Create "Restart" button
-//        Button restartButton = new Button("Restart");
-//        restartButton.setStyle("-fx-font-size: 24px; -fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 2px;");
-//        restartButton.setPrefSize(200, 50);
-//        restartButton.setPadding(new Insets(5, 0, 0, 0));
-//        restartButton.setOnAction(e -> {
-//            System.out.println("Restart clicked!");
-//            restartLevel(primaryStage); // Call the method to restart the level
-//        });
-//
-//        // Create "Quit" button
-//        Button quitButton = new Button("Quit");
-//        quitButton.setStyle("-fx-font-size: 24px; -fx-background-color: white; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 2px;");
-//        quitButton.setPrefSize(200, 50);
-//        quitButton.setPadding(new Insets(5, 0, 0, 0)); // Adjust padding to move text up
-//        quitButton.setOnAction(e -> {
-//            System.exit(0);
-//        });
-//
-//        // VBox to hold the buttons vertically
-//        VBox buttonBox = new VBox(20, restartButton, quitButton);
-//        buttonBox.setAlignment(Pos.CENTER);
-//        buttonBox.setStyle("-fx-padding: 20px;");
-//
-//        // BorderPane to layout the image, label, and buttons
-//        BorderPane root = new BorderPane();
-//        root.setTop(logoBox);
-//        root.setCenter(youLoseBox);
-//        root.setBottom(buttonBox);
-//        root.setStyle("-fx-background-color: black;");
-//
-//        Scene scene = new Scene(root, 800, 600);
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
-//    }
-//
-//    private VBox createLogoBox() {
-//        VBox logoBox = new VBox();
-//        logoBox.setAlignment(Pos.TOP_CENTER);
-//        logoBox.setPadding(new Insets(10, 0, 0, 0));
-//
-//        InputStream imageStream = getClass().getResourceAsStream(IMAGE_PATH);
-//        if (imageStream == null) {
-//            imageStream = getClass().getClassLoader().getResourceAsStream(IMAGE_PATH.substring(1));
-//        }
-//
-//        if (imageStream != null) {
-//            Image logoImage = new Image(imageStream);
-//            ImageView logoImageView = new ImageView(logoImage);
-//            logoImageView.setFitWidth(LOGO_WIDTH);
-//            logoImageView.setPreserveRatio(true);
-//            logoBox.getChildren().add(logoImageView);
-//        }           else {
-//            System.err.println("Image file not found: " + IMAGE_PATH);
-//            Label imageNotFoundLabel = new Label("Image not found");
-//            imageNotFoundLabel.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, FONT_SIZE_LABEL));
-//            imageNotFoundLabel.setTextFill(Color.RED);
-//            logoBox.getChildren().add(imageNotFoundLabel);
-//        }
-//
-//        return logoBox;
-//    }
-//
-//    // Method to restart the level
-//    private void restartLevel(Stage primaryStage) {
-//        start(primaryStage);
-//    }
-//
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
-//}
+package menuScreens;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class DeathScreen extends JFrame {
+
+    private static final String IMAGE_PATH = "/Images/Dead.png";
+    private static final String FONT_FAMILY = "Arial";
+    private static final double LOGO_WIDTH = 400;
+    private static final double FONT_SIZE_LABEL = 24;
+
+    public DeathScreen() {
+        setTitle("Death Screen");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLayout(new BorderLayout());
+        getContentPane().setBackground(Color.BLACK);
+
+        // Create the logo box
+        JPanel logoBox = createLogoBox();
+
+        // Create "YOU LOSE" label
+        JLabel youLoseLabel = new JLabel("YOU LOSE");
+        youLoseLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, 48));
+        youLoseLabel.setForeground(Color.RED);
+        youLoseLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Panel to hold the "YOU LOSE" label
+        JPanel youLoseBox = new JPanel();
+        youLoseBox.setBackground(Color.BLACK);
+        youLoseBox.setLayout(new BorderLayout());
+        youLoseBox.add(youLoseLabel, BorderLayout.CENTER);
+
+        // Create "Restart" button
+        JButton restartButton = new JButton("Restart");
+        restartButton.setFont(new Font(FONT_FAMILY, Font.PLAIN, 24));
+        restartButton.setBackground(Color.WHITE);
+        restartButton.setForeground(Color.BLACK);
+        restartButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        restartButton.setPreferredSize(new Dimension(200, 50));
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Restart clicked!");
+                restartLevel(); // Call the method to restart the level
+            }
+        });
+
+        // Create "Quit" button
+        JButton quitButton = new JButton("Quit");
+        quitButton.setFont(new Font(FONT_FAMILY, Font.PLAIN, 24));
+        quitButton.setBackground(Color.WHITE);
+        quitButton.setForeground(Color.BLACK);
+        quitButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        quitButton.setPreferredSize(new Dimension(200, 50));
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        // Panel to hold the buttons
+        JPanel buttonBox = new JPanel();
+        buttonBox.setBackground(Color.BLACK);
+        buttonBox.setLayout(new GridLayout(2, 1, 20, 20));
+        buttonBox.add(restartButton);
+        buttonBox.add(quitButton);
+
+        // Add components to the main frame
+        add(logoBox, BorderLayout.NORTH);
+        add(youLoseBox, BorderLayout.CENTER);
+        add(buttonBox, BorderLayout.SOUTH);
+
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private JPanel createLogoBox() {
+        JPanel logoBox = new JPanel();
+        logoBox.setBackground(Color.BLACK);
+        logoBox.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+
+        ImageIcon logoImage = new ImageIcon(getClass().getResource(IMAGE_PATH));
+        if (logoImage.getImageLoadStatus() == MediaTracker.COMPLETE) {
+            Image image = logoImage.getImage().getScaledInstance((int) LOGO_WIDTH, -1, Image.SCALE_SMOOTH);
+            JLabel logoLabel = new JLabel(new ImageIcon(image));
+            logoBox.add(logoLabel);
+        } else {
+            System.err.println("Image file not found: " + IMAGE_PATH);
+            JLabel imageNotFoundLabel = new JLabel("Image not found");
+            imageNotFoundLabel.setFont(new Font(FONT_FAMILY, Font.BOLD, (int) FONT_SIZE_LABEL));
+            imageNotFoundLabel.setForeground(Color.RED);
+            logoBox.add(imageNotFoundLabel);
+        }
+
+        return logoBox;
+    }
+
+    // Method to restart the level
+    private void restartLevel() {
+        // Here you can implement the logic to restart the level
+        // For example, you could dispose the current frame and create a new instance
+        dispose();
+        new DeathScreen();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new DeathScreen();
+            }
+        });
+    }
+}
