@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class DeathScreen extends JPanel {
 
-    private static final String IMAGE_PATH = "/Images/Dead.png";
+    private static final String IMAGE_PATH = "/menuResources/Dead.png";
     private static final String FONT_FAMILY = "Arial";
     private static final double LOGO_WIDTH = 400;
     private static final double FONT_SIZE_LABEL = 24;
@@ -79,7 +79,7 @@ public class DeathScreen extends JPanel {
         logoBox.setBackground(Color.BLACK);
         logoBox.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 
-        ImageIcon logoImage = new ImageIcon(getClass().getResource("/menuResources/Dead.png"));
+        ImageIcon logoImage = new ImageIcon(getClass().getResource(IMAGE_PATH));
         if (logoImage.getImageLoadStatus() == MediaTracker.COMPLETE) {
             Image image = logoImage.getImage().getScaledInstance((int) LOGO_WIDTH, -1, Image.SCALE_SMOOTH);
             JLabel logoLabel = new JLabel(new ImageIcon(image));

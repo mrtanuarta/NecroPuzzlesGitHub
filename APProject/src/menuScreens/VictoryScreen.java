@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VictoryScreen extends JFrame {
+public class VictoryScreen extends JPanel {
 
     private static final String IMAGE_PATH = "/menuResources/Win.png";
     private static final String FONT_FAMILY = "Arial";
@@ -13,13 +13,10 @@ public class VictoryScreen extends JFrame {
     private static final double FONT_SIZE_LABEL = 24;
     private MainApp mainApp;
 
-    public VictoryScreen(MainApp mainApp, int levelNumber) {
+    public VictoryScreen(MainApp mainApp, int levelNum) {
         this.mainApp = mainApp;
-        setTitle("Victory Screen");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
         setLayout(new BorderLayout());
-        getContentPane().setBackground(Color.BLACK);
+        setBackground(Color.BLACK);
 
         // Create the logo box
         JPanel logoBox = createLogoBox();
@@ -47,7 +44,7 @@ public class VictoryScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Next Level clicked!");
-                loadNextLevel();
+                loadNextLevel(levelNum);
             }
         });
 
@@ -72,13 +69,10 @@ public class VictoryScreen extends JFrame {
         buttonBox.add(nextLevelButton);
         buttonBox.add(quitButton);
 
-        // Add components to the main frame
+        // Add components to the main panel
         add(logoBox, BorderLayout.NORTH);
         add(youWinBox, BorderLayout.CENTER);
         add(buttonBox, BorderLayout.SOUTH);
-
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     private JPanel createLogoBox() {
@@ -103,16 +97,21 @@ public class VictoryScreen extends JFrame {
     }
 
     // Method to load the next level
-    private void loadNextLevel() {
+    private void loadNextLevel(int levelNum) {
         System.out.println("Loading the next level...");
-        // Implement the next level loading logic here
+        mainApp.startGame(levelNum + 1);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-            
+                JFrame frame = new JFrame("Victory Screen");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(800, 600);
+                frame.add(new VictoryScreen(new MainApp(), 1));
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
             }
         });
     }
