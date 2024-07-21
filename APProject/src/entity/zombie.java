@@ -250,7 +250,6 @@ public final class zombie extends entity {
         }
 
         //set tile in front of zombie to death tile
-
         if (gp.tileM.isZombiePath(col+1, row)){
             gp.tileM.updateTile(col+1, row, 25);
         }
