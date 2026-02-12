@@ -34,13 +34,13 @@ Press ESC to Pause the game.
 
 
 # Coding Information:
-## - Front-End: JavaFX (Stage, Scene, JButton, Label, Button, EventHandler, MediaPlayer, etc).
+##### - Front-End: JavaFX (Stage, Scene, JButton, Label, Button, EventHandler, MediaPlayer, etc).
 Custom 8-Bit Pixel Art for UI & Entities (Player, Zombies, Buttons, etc).
 
-## - Back-End: Java (If-Else, Switch, ArrayList, Try-Catch, etc), Object Oriented Programming (OOP) concepts (Classes, Inheritance, etc), entity management using GamePanel, Level, and entity class structure, and handling all the data & levels using Array.
+##### - Back-End: Java (If-Else, Switch, ArrayList, Try-Catch, etc), Object Oriented Programming (OOP) concepts (Classes, Inheritance, etc), entity management using GamePanel, Level, and entity class structure, and handling all the data & levels using Array.
 
 # Contributors:
-Jerry Wingsky (@jrywsky)
+Jerry Wingsky (@jrywsky(https://github.com/JerryWingsky))
 Menu & Level Selection Codes.
 Victory & Death Screen & Codes.
 Human Codes.
@@ -49,12 +49,12 @@ Debugging the Code.
 Major Debugging in Menu & Level Selection Codes & Victory & Death Screen & Codes.
 Proofreading All Documents & Codes.
 
-Kelvin (@kelvin-0508)
+Kelvin (@kelvin-0508(https://github.com/kelvin-0805))
 Pause Screen.
 Debugging the Code.
 Proofreading All Codes.
 
-Ricky Tanuarta (@mrtanuarta)
+Ricky Tanuarta (@mrtanuarta(https://github.com/mrtanuarta))
 Zombie Codes.
 Button & Spike Codes.
 Level Loader Codes.
@@ -62,7 +62,7 @@ UI Screen Integration.
 Major Debugging in UI Screens & Entities.
 Game Sound Implementation.
 
-Eins Herbert Takawijaya Tee (@Estody)
+Eins Herbert Takawijaya Tee (@Estody(https://github.com/Estody))
 Map & Level Designer.
 Asset Artist.
 Player, Tile, Moving, and Hitbox Logic.
